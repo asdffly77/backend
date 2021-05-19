@@ -1,0 +1,85 @@
+<% content_for :title do %>
+<title><%= t('CaseManage') %></title>
+<% end %>
+
+<% content_for :javascript do %>
+<% end %>
+
+<div class="main container padding">
+  <%= render 'left' %>
+  <!-- 页面内容 -->
+  <div class="page">
+      <%= form_for @case, method: :put do |f| %>
+      <div class="row">
+        <div class="label"><%= t('case.name')%></div>
+        <div class="input">
+          <%= f.text_area :name, :row => "10" %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><%= t('case.name_en')%></div>
+        <div class="input">
+          <%= f.text_area :name_en, :row => "10" %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><%= t('case.detail')%></div>
+        <div class="input">
+          <%= f.text_area :detail, :row => "10" %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><%= t('case.detail_en')%></div>
+        <div class="input">
+          <%= f.text_area :detail_en, :row => "10" %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><%= t('case.video')%></div>
+        <div class="input">
+          <%= f.text_area :video, :row => "10" %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><%= t('case.threed_model')%></div>
+        <div class="input">
+          <%= f.file_field :three_d_model, :row => "10", :accept => '.stl' %>
+        </div>
+      </div>
+      <h3>Images</h3>
+
+        <div id="images">
+          <%= f.fields_for :case_images do |case_image|%>
+        <div class="row">
+
+          <%= render 'case_image_fields', f: case_image %>
+            </div>
+          <% end %>
+          <div class="links">
+            <%= link_to_add_association t('image.add'), f, :case_images %>
+          </div>
+        </div>
+
+        <div class="row submit">
+        <%= f.button '保存修改'%>
+        </div>
+      <% end %>
+      <!--
+      <div class="row homepage">
+        <div class="label"><%= t('case.company_index')%></div>
+        <div class="input">
+          <a href="<%= company_path(@company, :locale => 'zh-CN')%>" class="link"><%= t('case.company_view') %></a>
+          <a href="<%= edit_company_path(@company, :locale => 'zh-CN')%>"><button><%= t('case.company_edit') %></button></a>
+        </div>
+      </div>
+
+      <div class="row homepage">
+        <div class="label"><%= t('case.company_index_en')%></div>
+        <div class="input">
+          <a href="<%= company_path(@company, :locale => 'en')%>" class="link"><%= t('case.company_view') %></a>
+          <a href="<%= edit_company_path(@company, :locale => 'en')%>"><button><%= t('case.company_edit') %></button></a>
+        </div>
+      </div>
+    -->
+  </div>
+</div>

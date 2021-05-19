@@ -1,0 +1,25 @@
+<% content_for :title do %>
+<%# Todo: i18n %>
+<title><%= @new_info.name_i18n_show %></title>
+<% end %>
+
+<% content_for :javascript do %>
+<%= javascript_include_tag 'newsDetail.js'%>
+<% end %>
+  <script>
+    // Todo: i18n
+    window.PAGE_DATA = <%= raw(@new_info.detail_i18n_show) %>
+  </script>
+<div class="content container padding">
+  <div class="article">
+    <!-- TODO: 文章标题 -->
+    <h1><%= @new_info.name_i18n_show %></h1>
+    <div class="time"><%= @new_info.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
+    <div id="holder"></div>
+  </div>
+  <!-- TODO: 广告，如果有的话 -->
+  <%# <div class="ad">
+    <img src="https://assets.zjzsxhy.com/upload/4d00b292-83ce-4ad8-87fa-3020c51f496e.jpg" alt="">
+  </div> %>
+</div>
+<div id="hiddenHolder" style="display: none;"></div>

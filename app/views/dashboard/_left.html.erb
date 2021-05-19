@@ -1,0 +1,21 @@
+<div class="menu" style="min-height: 55vh">
+  <div class="title"><%= t('dashboard.left.user_center')%></div>
+  <a href="<%= dashboard_index_path %>" class="<%= @page_id == 'dashboardUser' ? 'active' : ''%>"><%= t('dashboard.left.my')%></a>
+  <a href="<%= password_dashboard_index_path %>" class="<%= @page_id == 'dashboardChangePassword' ? 'active' : ''%>"><%= t('dashboard.left.change_password')%></a>
+  
+  <% if current_user.company && current_user.company.allow? %>
+    <a href="<%= company_dashboard_index_path %>" class="<%= params[:action] == "company" ? 'active' : ''%>"><%= t('dashboard.left.company_manage')%></a>
+    <a href="<%= cases_dashboard_index_path %>" class="<%= (%w(cases_edit cases_create cases).include? params[:action]) ? 'active' : ''%>"><%= t('dashboard.left.case_manage')%></a>
+    <a href="<%= demands_dashboard_index_path %>" class="<%= (%w(demands demand_show).include? params[:action]) ? 'active' : ''%>"><%= t('dashboard.left.demand_view')%></a>
+  <% end %>
+  <a href="<%= chats_path %>" class="<%= (%w(chats).include? params[:controller]) ? 'active' : ''%>"><%= t('dashboard.left.im')%></a>
+
+  <% if current_user.company&.live %>
+    <a href="<%= lives_dashboard_index_path %>" class="<%= params[:action] == "lives" ? 'active' : ''%>"><%= t('dashboard.left.live_manage')%></a>
+  <% end %>
+  <a href="<%= translate_index_path %>" class="<%= (%w(translate).include? params[:action]) ? 'active' : ''%>"><%= t('dashboard.left.translate')%></a>
+
+  <a href="<%= user_demands_dashboard_index_path %>" class="<%= (%w(user_demands).include? params[:action]) ? 'active' : ''%>"><%= t('dashboard.left.user_demand')%></a>
+
+  <a href="<%= log_out_index_path %>"><%= t('log_out') %></a>  
+</div>

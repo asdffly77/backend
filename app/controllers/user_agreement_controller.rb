@@ -1,0 +1,3 @@
+class UserAgreementController < ApplicationController
+
+end

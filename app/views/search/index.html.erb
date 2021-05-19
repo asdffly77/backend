@@ -1,0 +1,55 @@
+<% content_for :title do %>
+<title><%= t('search') %></title>
+<style>
+#search .input form {
+  display: flex;
+  width: 100%;
+}
+</style>
+<% end %>
+
+<% content_for :javascript do %>
+<% end %>
+  <div class="input">
+    <!-- TODO: 搜索默认信息 -->
+    <%= form_for "", :url => search_index_path, :method => 'get' do |f| %>
+
+      <%= f.text_field :key, :value => params[:key] %>
+      <%= f.hidden_field :type, :value => params[:type] %>
+      <button><%= t('search') %></button>
+      
+    <% end %>
+    
+  </div>
+  <div class="tabs">
+    <a href="<%= search_index_path(:type => :company, :key => params[:key])%>" class="tab <%= 'active' if params[:type] == 'company' %>"><%= t('Design') %></a>
+    <a href="<%= search_index_path(:type => :clothing, :key => params[:key])%>" class="tab <%= 'active' if params[:type] == 'clothing' %>"><%= t('FashionWeek') %></a>
+    <a href="<%= search_index_path(:type => :live, :key => params[:key])%>" class="tab <%= 'active' if params[:type] == 'live' %>"><%= t('Live') %></a>
+    <a href="<%= search_index_path(:type => :new, :key => params[:key])%>" class="tab <%= 'active' if params[:type] == 'new' %>"><%= t('News') %></a>
+  </div>
+  <div class="list container padding">
+    <!-- TODO: 直播列表 -->
+    <div class="content">
+    <% @results.each do |result| %>
+    
+      <%= link_to result, :class => :live do %>
+        <div class="cover" style="background-image: url(<%= result.image&.url || result.logo&.url %>);"></div>
+        <div class="title"><%= result.name_i18n_show %></div>
+        <div class="info">
+        
+        <% if result.class == New %>
+          <div class="name"><%= (raw result.home_description) + '...' %></div>
+          <div class="time"><%= result&.created_at&.strftime("%Y-%m-%d") %></div>
+        <% elsif result.class == Live %>
+          <div class="name"><%= result.company&.name_i18n_show || result.author %></div>
+          <%# <div class="time">2018-12-10</div> %>
+        <% end %>
+        
+        </div>
+      <% end %>
+      
+
+    <% end %>
+    
+  </div>
+  </div>

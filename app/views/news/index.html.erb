@@ -1,0 +1,41 @@
+<% content_for :title do %>
+<title><%= t('News')%></title>
+<style>
+<%# #news .b1>a:first-child {
+  height: 100% !important;
+} %>
+</style>
+<% end %>
+<% content_for :javascript do %>
+<%= javascript_include_tag "news.js" %>
+<% end %>
+
+<div class="container padding list">
+  <div class="tabs">
+    <a href="<%= news_index_path %>" class="<%= params[:new_classify_id].present? ? '' : 'active' %>"><%= t('all') %></a>
+    <% @new_classifies.each do |new_classify| %>
+      <a href="<%= news_index_path(:new_classify_id => new_classify.id) %>" class="<%= params[:new_classify_id] == new_classify.id.to_s ? 'active' : ''%>"><%= new_classify.name_i18n_show%></a>
+    <% end %>
+  </div>
+</div>
+
+<!-- TODO: 分类信息 -->
+<div class="b2 container padding">
+    <div class="content">
+      <div class="articles">
+        <% @news.each do |info|%>
+          <%= link_to news_path(info), :class => 'article link' do%>
+            <div class="cover" style="background-image: url(<%= info.image.url %>);"></div>
+            <%# Todo: i18n %>
+            <div class="title"><%= info.name_i18n_show %></div>
+          <% end %>
+        <% end %>
+
+      </div>
+      <%# <div class="ad">
+        <img src="https://assets.zjzsxhy.com/upload/4d00b292-83ce-4ad8-87fa-3020c51f496e.jpg" alt="">
+      </div> %>
+    </div>
+
+  </div>
+</div>

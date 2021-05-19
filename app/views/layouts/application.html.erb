@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" data-locale="<%= I18n.locale %>">
+<head>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <%= javascript_include_tag 'application.js' %>
+  <%# <script src="https://s1.pstatp.com/cdn/expire-1-y/jquery/3.4.0/jquery.min.js" type="application/javascript"></script> %>
+  <script src="https://s0.pstatp.com/cdn/expire-1-y/noty/3.2.0-beta/noty.min.js" type="application/javascript"></script>
+  <link href="https://s2.pstatp.com/cdn/expire-1-y/normalize/8.0.1/normalize.min.css" type="text/css" rel="stylesheet" />
+  <link href="https://s2.pstatp.com/cdn/expire-1-y/noty/3.2.0-beta/noty.css" type="text/css" rel="stylesheet" />
+  <script src="https://s3.pstatp.com/cdn/expire-1-y/Swiper/4.5.0/js/swiper.min.js" type="application/javascript"></script>
+  <link href="https://s3.pstatp.com/cdn/expire-1-y/Swiper/4.5.0/css/swiper.min.css" type="text/css" rel="stylesheet" />
+  <link href="https://s2.pstatp.com/cdn/expire-1-y/simplebar/4.0.0-alpha.6/simplebar.min.css" type="text/css" rel="stylesheet" />
+  <script src="https://s2.pstatp.com/cdn/expire-1-y/simplebar/4.0.0-alpha.6/simplebar.min.js" type="application/javascript"></script>
+  <link href="https://s0.pstatp.com/cdn/expire-1-M/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" type="text/css" rel="stylesheet" />
+  <link href="https://s2.pstatp.com/cdn/expire-1-M/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" type="text/css" rel="stylesheet" />
+  <script src="https://s2.pstatp.com/cdn/expire-1-M/OwlCarousel2/2.3.4/owl.carousel.min.js" type="application/javascript"></script>
+  <link href="https://s2.pstatp.com/cdn/expire-1-M/font-awesome/5.8.1/css/all.min.css" type="text/css" rel="stylesheet" />
+  <%= stylesheet_link_tag 'style.css' %>
+  <%= yield :title %>
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e5218cd37f3402f088a8c1f64443183b";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+  <body id="<%= @page_id %>" class="<%= %w(dashboardUser dashboardChangePassword dashboardCompany dashboardCaseList).include?(@page_id) ? 'dashboard' : '' %>">
+    <%= render 'layouts/header' %>
+    <%= yield %>
+    <%# if current_user.present? %>
+      <%= link_to t('contact_index'), chats_path, class: 'contact-index-me', :target => '_blank' %>
+      
+      <% unless params[:controller] == 'translate' %>
+        
+        <%= link_to t('translate'), translate_index_path, class: 'translate-me', :target => '_blank' %>
+      <% end %>
+      
+    <%# end %>
+    <%= javascript_include_tag 'style.js' %>
+    <%= yield :javascript %>
+  <%# <script type="text/javascript" src="https://x-assets.coinvoice.cn/static/style.48b8d898.js"></script><script type="text/javascript" src="https://x-assets.coinvoice.cn/static/home.73fa9a64.js"></script> %>
+  </body>
+  <script>
+    $( "#searchClick" ).on( "click", function() {
+      
+      window.location.href = "<%= '/' + params[:locale] + '/search?type=company&key='%>" + $( '#searchContext' ).val();
+    });
+  </script>
+  <%= render 'layouts/footer' %>
+</html>

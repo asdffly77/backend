@@ -1,0 +1,2 @@
+module DesignActivitiesHelper
+end

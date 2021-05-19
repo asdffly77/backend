@@ -1,0 +1,54 @@
+<style>
+header.main-header .menu.active{
+  width:70%;
+  height:450px;
+  right:0;
+}
+</style>
+
+<header class="main-header">
+  <div class="container">
+    <div class="b2">
+      <a href="<%= root_path %>" style="padding: 0">
+      <img src="https://assets.zjzsxhy.com/upload/668dbf82-d544-4239-b350-4dc4dea141de.svg" alt="PDC" class="logo m-hide">
+      <img src="https://assets.zjzsxhy.com/upload/64386f9e-028a-4827-8304-0adad686c61c.svg" alt="PDC" class="logo m-only">      </a>
+      <div class="menu" style="padding: 0;">
+        <a href="<%= root_path %>" style="padding: 0"><button class=<%= @page_id == 'index' && params[:controller] != 'about' ? 'active' : ''%>><%= t('Home') %></button></a>
+        <a href="<%= companies_path %>" style="padding: 0"><button class=<%= %w(companyList).include?(@page_id) || (@page_id == 'produce' && @company.design?) ? 'active' : ''%>><%= t('Design') %></button></a>
+        <a href="<%= fashion_weeks_path %>" style="padding: 0"><button class=<%= @page_id == 'week' || (@page_id == 'company' && @company.clothing?) ? 'active' : ''%>><%= t('FashionWeek') %></button></a>
+
+        <a href="<%= manufacture_companies_path %>" style="padding: 0"><button class=<%= %w(manufacture).include?(@page_id) || (@page_id == 'company' && @company.manufacture?) ? 'active' : ''%>><%= t('Manufacture') %></button></a>
+
+        <a href="<%= design_activities_path %>" style="padding: 0"><button class=<%= %w(event).include?(@page_id) ? 'active' : ''%>><%= t('Activity') %></button></a>
+        <a href="<%= lives_path(:classify => 'canton_fair') %>" style="padding: 0"><button class=<%= %w(livelist live).include?(@page_id) ? 'active' : ''%>><%= t('Live') %></button></a>
+        <a href="<%= news_index_path %>" style="padding: 0"><button class=<%= %w(news newsDetail).include?(@page_id) ? 'active' : '' %>><%= t('News') %></button></a>
+        <!-- <a href="#" style="padding: 0"><button class=<%= @page_id == 'home' ? 'active' : ''%>>金融服务专区</button></a> -->
+        <a href="<%= about_index_path %>" style="padding: 0"><button class=<%= params[:controller] == 'about' ? 'active' : '' %>><%= t('About') %></button></a>
+        
+        <% if current_user %>
+          <a href="<%= dashboard_index_path %>" style="padding: 0"><button class=<%= params[:controller] == 'dashboard' ? 'active' : '' %>><%= t('dashboard.left.user_center') %></button></a>
+          
+        <% end %>
+        
+      </div>
+      <input type="text" class="header-search" style="margin-right:0px" id="searchContext" value=<%= params[:key]%>>
+      <i class="fa fa-search header-search" id="searchClick"></i>
+      <div class="opts">
+      <% if current_user %>
+        <a href="<%= dashboard_index_path %>">
+          <%= image_tag current_user.image&.url || current_user.gravatar_url, :class => "login-btn", :style => 'width:30px;vertical-align: middle;' %>
+        </a>
+      <% else %>
+        <a href="<%= new_session_path(:redirect_to => request.path) %>" ><button class="login-btn" style="vertical-align: middle;"><%= t('SignIn') %></button></a>
+      <% end %>
+      <% if params[:locale] == ('en' || nil) %>
+        <a href="<%= request.fullpath.gsub(/\A\/en/, '/zh-CN') %>"><button class="lang-btn" style="vertical-align: middle;">中</button></a>
+      <% else %>
+        <a href="<%= request.fullpath.gsub(/\A\/zh-CN/, '/en') %>"><button class="lang-btn" style="vertical-align: middle;">EN</button></a>
+      <% end %>
+      </div>
+      <div class="m-only header-menu-btn"><img src="https://assets.zjzsxhy.com/upload/150ea44c-db9d-473f-bec8-f492aface6d1.svg" alt=""></div>
+
+    </div>
+  </div>
+</header>

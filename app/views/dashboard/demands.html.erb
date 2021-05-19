@@ -1,0 +1,32 @@
+<% content_for :title do %>
+<title><%= t('dashboard.left.demand_view')%></title>
+<% end %>
+
+<% content_for :javascript do %>
+<% end %>
+
+<div class="main container padding">
+  <%= render 'left' %>
+
+  <!-- 页面内容 -->
+  <div class="page">
+    <div class="th">
+      <div class="td id">ID</div>
+      <div class="td name"><%= t('activerecord.attributes.demand.company_name') %></div>
+      <div class="td intro"><%= t('activerecord.attributes.demand.company_type') %></div>
+      <div class="td intro"><%= t('activerecord.attributes.demand.demand_type') %></div>
+      <div class="td intro"><%= t('activerecord.attributes.demand.product_type') %></div>
+      <div class="td show">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div> 
+    </div>
+    <% @demands.each do |demand_info| %>
+      <div class="tr">
+        <div class="td id"><%= demand_info.id %></div>
+        <div class="td name"><%= demand_info.company_name %></div>
+        <div class="td intro"><%= t('demand.company_type')[demand_info.company_type&.to_sym] %></div>
+        <div class="td intro"><%= t('demand.demand_type')[demand_info.demand_type&.to_sym] %></div>
+        <div class="td intro"><%= t('demand.product_type')[demand_info.product_type&.to_sym] %></div>
+        <div class="td show"><a href="<%= demand_show_dashboard_index_path(demand_info) %>"><%= t('dashboard.company_view')%></a></div>
+      </div>
+    <% end %>
+  </div>
+</div>

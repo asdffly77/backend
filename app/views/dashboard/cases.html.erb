@@ -1,0 +1,44 @@
+<% content_for :title do %>
+<title><%= t('dashboard.left.case_manage')%></title>
+<% end %>
+
+<% content_for :javascript do %>
+<% end %>
+
+  <div class="main container padding">
+  <%= render 'left' %>
+
+    <!-- 页面内容 -->
+    <div class="page">
+      <div class="opt"><a href="<%= cases_create_dashboard_index_path %>"><button><%= t('case.add') %></button></a></div>
+      <div class="th">
+        <div class="td id">ID</div>
+        <div class="td name"><%= t('case.name') %></div>
+        <div class="td intro"><%= t('case.detail') %></div>
+        <div class="td images"><%= t('case.image') %></div>
+        <div class="td link"><%= t('case.more') %></div>
+        <div class="td edit"><%= t('case.edit') %></div>
+        <div class="td destroy"><%= t('case.destroy') %></div>
+      </div>
+      <% @cases.each do |case_info| %>
+      <div class="tr">
+        <div class="td id"><%= case_info.id %></div>
+        <div class="td name"><%= case_info.name_i18n_show %></div>
+        <div class="td intro"><%= case_info.home_description %></div>
+        <div class="td images">
+          <!-- 注意，此处不能换行 -->
+          <% case_info.case_images&.each do |image|%>
+            <img src="<%= image.image.url%>" alt="">
+          <% end %>
+        </div>
+        <div class="td link"><a href="<%= case_path(case_info) %>"><%= t('case.more')%></a></div>
+        <div class="td edit"><a href="<%= cases_edit_dashboard_path(case_info) %>"><img src="https://assets.zjzsxhy.com/upload/5525875e-7fe4-4feb-8f7d-5783e5185cfd.svg" alt=""></a></div>
+        <div class="td destroy">
+          <%= form_for(case_info, :method => :delete) do |f| %>
+            <%= f.button t('case.destroy') %>
+          <% end %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>

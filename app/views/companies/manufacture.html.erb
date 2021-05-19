@@ -1,0 +1,48 @@
+<% content_for :title do %>
+  <title><%= t('Design')%></title>
+<% end %>
+<% content_for :javascript do %>
+<%= javascript_include_tag "companyList.js" %>
+<% end %>
+
+<div class="header-banner">
+  <!-- TODO: 大Banner，图片 -->
+  <div class="swiper-wrapper">
+  <% @banners.each do |banner| %>
+    <div class="swiper-slide"><%= link_to banner.url do %>
+      <img src=<%= banner.image.url %> alt="">
+    <% end %>
+    </div>
+  <% end %>
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+
+<div class="container padding list" style="<%= @banners.present? ? '' : 'margin-top: 0'%>">
+  <!-- TODO: 分类信息，链接 -->
+  <div class="tabs">
+    <a href="<%= manufacture_companies_path %>" class="<%= params[:company_classify_id].present? ? '' : 'active' %>"><%= t('all') %></a>
+    <% @company_classifies.each do |company_classify| %>
+      <a href="<%= manufacture_companies_path(:company_classify_id => company_classify.id) %>" class="<%= params[:company_classify_id] == company_classify.id.to_s ? 'active' : ''%>"><%= company_classify.name_i18n_show%></a>
+    <% end %>
+  </div>
+  <!-- TODO: 本分类下公司列表 -->
+  <div class="content">
+  <% @companies.each do |company| %>
+    <div class="company">
+      <%= link_to company_path(company) do %>
+        <div class="cover">
+          <%= image_tag company.logo.url, :style => 'width: 100%; height: 100%;' if company.logo.present? %>
+        </div>
+      <% end %>
+      <div class="name"><%= company.name_i18n_show%></div>
+    </div>
+  <% end %>
+  </div>
+  <%# <div class="more">
+    <!-- TODO: 点击获取更多 -->
+    <button>查看更多</button>
+  </div> %>
+</div>

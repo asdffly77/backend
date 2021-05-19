@@ -1,0 +1,49 @@
+<% content_for :title do %>
+  <title></title>
+  <script src="https://s3.pstatp.com/cdn/expire-1-M/three.js/104/three.min.js" type="application/javascript"></script>
+  <!-- https://github.com/mrdoob/three.js/blob/r104/examples/js/loaders/STLLoader.js -->
+  <script src="https://assets.zjzsxhy.com/upload/2c720e26-015c-455b-bca3-e38b9d5c8519.js" type="application/javascript"></script>
+  <!-- https://github.com/mrdoob/three.js/blob/r104/examples/js/controls/OrbitControls.js -->
+  <script src="https://assets.zjzsxhy.com/upload/e696449a-2ed7-40b0-98b9-32115ebbcda0.js" type="application/javascript"></script>
+<% end %>
+
+<% content_for :javascript do %>
+  <%= javascript_include_tag 'case.js' %>
+<% end %>
+<div class="main container padding" style="margin: 40px auto;">
+  <div class="b1">
+    <div class="carousel">
+      <div class="detail"></div>
+      <div class="owl-container owl-carousel owl-theme">
+      
+      <% if @case.three_d_model.present? %>
+        <div class="case" data-type="model" data-cover="<%= image_url('3d-default.jpg') %>" data-model="<%= @case.three_d_model.url %>" ></div>
+      <% end %>
+      
+      <% @case.case_images&.each do |image|%>
+        <div class="case" data-type="image" data-cover="<%= image.image.url%>"></div>
+      <% end %>
+      </div>
+    </div>
+    <div class="article">
+      <%= simple_format @case.detail_i18n_show %><br>
+      <%= raw @case.video&.gsub(/iframe /, 'iframe width="100%" height="380px"') %>
+    </div>
+  </div>
+  <div class="b2">
+    <div class="page-title"><%= t('dashboard.company_description') %></div>
+    <div class="company">
+      <p class="img-p"><img src="<%= @case.company.logo.url %>" alt=""></p>
+      <p><%= @case.company.description_i18n_show %></p>
+      <%= link_to t('link_to_company_page'), company_path(@case.company)%>
+      <p></p>
+    </div>
+    <div class="page-title"><%= t('more_cases') %></div>
+    <div class="more">
+      <% Case.where(:company_id => @case.company_id).each do |case_info| %>
+        <div><%= link_to case_info.name_i18n_show, case_path(case_info) %></div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<%= link_to t('chat'), chat_path(@case.company.user.id), class: 'contact-me' %>

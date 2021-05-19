@@ -1,0 +1,25 @@
+zh-TW:
+  err_item:
+    app_auth:
+      user_not_found:
+        message: 用戶驗證失敗，請重新登入
+        code: "000000"
+      wrong_params:
+        message: 請求參數錯誤
+        code: "000001"
+      app_not_found:
+        message: 請求非法
+        code: "000002"
+      timeout:
+        message: 時間錯誤，請檢查設備時間
+        code: "000003"
+      need_upgrade:
+        message: 當前app版本已過期，請到官網下載最新版本
+        code: "000004"
+    auth_user_service:
+      wrong_email:
+        message: 您輸入的信箱地址或密碼不正確，請重新輸入。
+        code: "000101"
+      wrong_phone:
+        message: 您輸入的手機號碼或密碼不正確，請重新輸入。
+        code: "000101"

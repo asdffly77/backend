@@ -1,0 +1,142 @@
+ <% content_for :title do %>
+<title><%= t('Live')%></title>
+<script src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.2.js" charset="utf-8"></script>
+<% end %>
+
+<% content_for :javascript do %>
+<%= javascript_include_tag "live.js"%>
+<script>
+window.LIVE_CONFIG = <%= raw @life.live_address %>;
+window.LIVE_TYPE = "<%= raw @life.live_type %>";
+window.LIVE_SOURCE = "<%= @life.source %>";
+window.LIVE_SOURCE_URL = '<%= raw @life.source_url %>';
+</script>
+<% end %>
+ <!-- TODO: 直播间背景 -->
+<div class="header-banner">
+  <!-- TODO: 大Banner，图片 -->
+  <div class="swiper-wrapper">
+  <% @banners.each do |banner| %>
+    <div class="swiper-slide"><%= link_to banner.url, "data-track" => "直播详情|点击|#{banner.url}" do %>
+      <img src=<%= banner.image.url %> alt="">
+    <% end %>
+    <%# <div class="swiper-slide"><img src=<%= banner.image.url %> alt=""></div> %>
+  <% end %>
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+
+  <div class="content container">
+    <div class="block top-block">
+      <!-- TODO: 直播间信息，标题，用户名，在线人数 -->
+      <div class="b1 video-block">
+        <div class="info">
+          <div class="icon" style="background-image: url(<%= @life.logo.url %>);"></div>
+          <div class="text">
+            <div class="t1"><%= @life.name_i18n_show %></div>
+            <div class="t2"><%= @life.company&.name_i18n_show || @life.author %></div>
+            <%# <div class="t3">在线人数 131,222</div> %>
+          </div>
+          <!-- 
+          <div class="sub">
+            <img src="https://assets.zjzsxhy.com/upload/710e36e7-818d-4251-9857-9d2ea79a4a29.svg" alt="">
+            <span>订阅</span>
+            <span class="div">|</span>
+            <span><%= @life.subscriped_users.count %></span>
+            <%# <span>367</span> %>
+          </div>
+          -->
+        </div>
+        <div class="video-container"></div>
+        <div class="video-comment">
+          <div class="switch active">
+            <div class="dot">弹</div>
+          </div>
+          <div class="input">
+            <input type="text">
+            <button>发送</button>
+          </div>
+        </div>
+      </div>
+      <div class="b2">
+        <div class="file-block">
+          <div class="header">
+            <div class="t1">文件</div>
+            <div class="t2">更新时间</div>
+          </div>
+          <!-- TODO: 下载文件列表，文件类型icon，文件名，时间，下载地址 -->
+          <div class="content" data-simplebar>
+          <% @life.attachments.each do |attachment| %>
+            <div class="row">
+              <img class="icon" src="https://assets.zjzsxhy.com/upload/64386f9e-028a-4827-8304-0adad686c61c.svg" alt="">
+              <div class="filename"><%= attachment.file_identifier %></div>
+              <div class="time"><%= attachment.updated_at.strftime("%Y-%m-%d %H:%M") %></div>
+              <a class="download" href="<%= attachment.file.url %>" download><img src="https://assets.zjzsxhy.com/upload/97baa8ee-bfe3-4434-82ba-36d3d81ef208.svg" alt=""></a>
+            </div>
+          <% end %>
+          </div>
+        </div>
+        <div class="video-comment-block" data-simplebar>
+          <!-- TODO: 弹幕，可能用JS载入 -->
+        </div>
+      </div>
+    </div>
+    <div class="block bottom-block">
+      <div class="b1">
+        <!-- 列表和评论有ajax获得，可以做翻页，列表一页4个，每次点击查看更多多一行，评论做翻页即可 -->
+        <div class="list-block">
+          <div class="tabs">
+            <span class="tab active" data-tab="live"><%= t('live.live_list') %></span>
+            <span class="tab" data-tab="replay"><%= t('live.history_list') %></span>
+            <span class="tab" data-tab="product"><%= t('live.product_list') %></span>
+            <span class="tab" data-tab="guest"><%= t('live.user_list') %></span>
+          </div>
+          <div class="content">
+            <div class="grid"></div>
+            <div class="more"><button>查看更多</button></div>
+          </div>
+        </div>
+        <div class="comment-block">
+          <div class="title page-subtitle">
+            <span>评论</span>
+            <a href="#submitComment"><button>发帖</button></a>
+          </div>
+          <div class="comment-container">
+            <div class="content"></div>
+            <div class="form" id="submitComment">
+              <div class="avatar" style="background-image: url(<%= current_user&.image&.url || 'https://assets.zjzsxhy.com/upload/64386f9e-028a-4827-8304-0adad686c61c.svg'%>);background-size:auto;"></div>
+              <div class="easy-form">
+                <div class="row">
+                  <textarea name="" id="" cols="30" rows="5" placeholder="文本域"></textarea>
+                </div>
+                <div class="row">
+                  <button>提 交</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%# <div class="b2 ad-block-1">
+        <!-- TODO: 广告图1 -->
+        <img src="https://assets.zjzsxhy.com/upload/4d00b292-83ce-4ad8-87fa-3020c51f496e.jpg" alt="">
+      </div> %>
+    </div>
+    <!-- TODO: 广告图2 -->
+   
+  </div>
+<% if @life.company&.user.present? %>
+  <%= link_to t('chat'), chat_path(@life.company.user.id), class: 'contact-me' %>
+<% end %>
+
+<% if @life.ad_show %>
+  <% if params[:locale] == 'en' %>
+    <div class="fixed-ad left"><a href="http://www.abchina.com/cn/special/ABCandCIEF/default.htm#/en" target="_blank" data-track="左侧广告|点击|#"><%= image_tag('live_ad_show.jpg')%></a></div> 
+  <% else %>
+    <div class="fixed-ad left"><a href="http://www.abchina.com/cn/special/ABCandCIEF/default.htm#/cn" target="_blank" data-track="左侧广告|点击|#"><%= image_tag('live_ad_show.jpg')%></a></div> 
+  <% end %>
+  
+<% end %>
+

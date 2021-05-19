@@ -1,0 +1,258 @@
+zh-CN:
+  time:
+    formats:
+      long: '长'
+  Home: '首 页'
+  Design: '设计展示'
+  Manufacture: 供应链企业
+  FashionWeek: '广交会时尚周'
+  Activity: '设计活动'
+  Live: '直播'
+  News: '发布中心'
+  About: '关于PDC'
+  SignIn: '登录｜注册'
+  LiveManage: '直播管理'
+  home_recommend_company: 'PDC优质设计公司推荐'
+  more_design_company: '更多设计公司'
+  more_clothing_company: '更多走秀品牌'
+  more: '了解更多→'
+  design_activities_description: '提升产品附加值，协助企业转型升级，新品发布、最新设计理念'
+  home_new_description: '新品速递 ｜ 设计交流 ｜ 案例分享'
+  more_news: '阅读详情'
+  friend_links: '友情链接'
+  friend_link_description: 'PDC致力于全球设计产业链资源整合'
+  clothing_companies: '走秀企业/品牌'
+  conton_fair_live: '广交会时尚周直播区'
+  activity_live: '设计活动直播区'
+  design_live: '设计公司直播区'
+  clothing_live: '走秀企业直播区'
+  manufacture_live: '供应链企业直播区'
+  CompanyManage: '公司管理'
+  one_key_request: '一键需求发布'
+  translate: 多格式在线翻译
+  contact_index: 多语言在线聊天
+  user_agreement_text: 我已经阅读并同意 %{link}
+  user_agreement: 用户协议
+  company:
+    edit:
+      submit: 保存编辑并提交
+      edit_mode: 编辑模式
+      preview_mode: 预览模式
+  chat: 联系该公司
+  dashboard:
+    company_name: '公司名'
+    company_name_en: '英文公司名'
+    company_type: '公司类型'
+    company_phone_number: '联系方式'
+    company_classify: '公司分类'
+    company_description: '公司简介(中文)'
+    company_description_en: '公司英文简介(英文)'
+    company_index: '公司主页'
+    company_index_en: '公司英文主页'
+    company_view: '点击查看'
+    company_edit: '前往编辑'
+    company_tag: '公司标签'
+    submit: '提交'
+    online_show: 线上展示
+    request_online_show: 申请参加线上展示
+    description_audit: 审核中的描述
+    description_en_audit: 审核中的英文描述
+    auditing: 已提交审核，我们会尽快审核
+    left:
+      user_center: 个人中心
+      my: 我的信息
+      recover_password: 找回密码
+      change_password: 修改密码
+      company_manage: 公司管理
+      case_manage: 案例管理
+      demand_view: 需求查看
+      live_manage: 直播管理
+      im: 在线聊天
+      translate: 在线翻译
+      user_demand: 我发布的需求
+    send: 发送验证码
+    verify_code: 验证码
+  footer:
+    info:
+      t1: 广发银行
+      t2: 独家金融合作伙伴
+      t3: 连接设计 | 促进产业 | 提升价值
+    footer-b2:
+      t1: PDC官方微信
+    footer-b3:
+      address: 广州市海珠区凤浦中路679号广交会大厦1506
+  design_company: '设计公司'
+  clothing_company: '走秀企业'
+  manufacture_company: 供应链企业
+  other_company: 其他
+  back_to_home: '回到首页'
+  wrong_login: '用户名密码错误，请确认后重试。'
+  all: '全部'
+  purchase: 采购商
+  production_enterprise: 供应链企业
+  designer: 设计师/设计企业
+  other: 其他
+  user_type: 身份类别
+  sign_up: 注册
+  log_in: 登录
+  already_have: 已有账号
+  don't_have: 还未注册
+  password: 密码
+  old_password: 旧密码
+  company_name: 公司名称
+  phone_number: 手机号
+  name: 姓名 
+  company_repeated: 已有相同名字公司注册，请联系客服或相关同事进行处理
+  case:
+    add: 新增
+    name: 案例名字
+    name_e : 案例英文名字
+    detail: 案例介绍
+    detail_en: 案例英文介绍
+    image: 案例图片
+    more: 详情
+    edit: 编辑
+    video: 视频链接
+    threed_model: 3D模型
+    destroy: 删除
+  more_cases: '更多案例'
+  live:
+    name: 直播标题
+    name_en: 英文直播标题
+    logo: 直播间logo
+    image: 列表页图片
+    address: 直播间地址
+    address_link: 进入直播间
+    live_list: 直播列表
+    history_list: 回看列表
+    product_list: 产品列表
+    user_list: 嘉宾列表
+  log_out: 注销登录
+  demand:
+    company_type:
+      manufacturer: 供应链企业
+      trading_company: 贸易公司
+      retailer: 零售商
+      wholesaler: 批发商
+      importer: 进口商
+      designer: 设计师/设计机构
+      foreign_buyers: 国外采购商
+      other: 其他
+    income_type:
+      five_million: 500万元以下
+      twenty_million: 500万元-2000万元
+      fifty_million: 2000万元-5000万元
+      one_hundred_million: 5000万元-1亿元
+      up_one_hundred_million: 1亿元以上
+    demand_type:
+      design: 找设计
+      product: 找产品
+      market: 找市场
+    product_type:
+      electronics_and_home_appliances: 电子及家电类
+      lighting: 照明类
+      vehicles_and_accessories: 车辆及配件类
+      mechanical: 机械类
+      hardware_tools: 五金工具类
+      building_materials: 建材类
+      chemical_products: 化工产品类
+      energy: 能源类
+      consumer_goods: 日用消费品类
+      gifts: 礼品类
+      home_decoration: 家居装饰品类
+      textile: 纺织类
+      clothing: 服装类
+      footwear: 鞋类
+      office_stationery: 办公文具类
+      luggage: 箱包类
+      sports_travel_and_leisure_products: 体育及旅游休闲用品
+      medicine_and_healthcare: 医药及医疗保健类
+      foodstuffs: 食品类
+  attachment:
+    remove: 移除附件
+    add: 增加附件
+  image:
+    remove: 移除图片
+    add: 增加图片
+  link_to_company_page: 进入公司主页
+  search: 搜索
+  activerecord:
+    models:
+      banner: 广告位
+      company: 公司
+      company_classify: 公司分类
+      new_classify: 新闻分类
+      live: 直播
+      demand: 需求管理
+      friend_link: 友情链接
+      attachment: 附件
+      user: 用户
+      new: 发布中心
+      notification: 跑马灯
+      event: 时间轴
+    attributes:
+      company:
+        company_type: 公司类型
+      company_classify:
+        name: 中文名称
+        name_en: 英文名称
+        classify_type: 展示类型
+      new_classify:
+        name: 中文名称
+        name_en: 英文名称
+      live:
+        name: 中文名称
+        name_en: 英文名称
+        rtmp_live_address: 直播地址
+        live_type: 直播类型
+        source: 直播间类型
+        source_url: 录播地址
+      banner:
+        image: 图片
+        start_at: 开始时间
+        end_at: 结束时间
+        url: 链接
+        banner_type: 展示位置
+      demand:
+        company_name: 企业名称
+        company_type: 身份类别
+        scope_of_business: 经营范围
+        income_type: 年营业额（人民币）
+        contract_name: 联系人
+        contract_phone_number: 联系电话
+        contract_email: 邮箱
+        contract_address: 联系地址
+        demand_type: 需求类型
+        product_type: 产品类别
+        end_at: 需求响应时限
+        detail: 需求详细描述
+      friend_link:
+        image: 图片
+        url: 链接
+      attachment:
+        file: 文件
+        live: 直播间
+      user:
+        email: E-mail
+        user_type: 用户类型
+        user_remask: 用户类型（其他）
+        company_name: 企业名称
+        phone_number: 电话号码
+        name: 名字
+        image: 头像
+      new:
+        name: 标题
+        name_en: 英文标题
+        detail: 详情
+        detail_en: 英文详情
+        image: 展示图片
+      notification:
+        body: 内容
+        is_active: 是否生效
+      event:
+        title: 标题
+        url: 链接
+        time: 时间
+        slot: 排序(大的在前面)
+        tags: 标签
+        event_type: 时间轴类型

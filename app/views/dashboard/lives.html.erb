@@ -1,0 +1,96 @@
+<% content_for :title do %>
+<title><%= t('LiveManage') %></title>
+<% end %>
+
+<% content_for :javascript do %>
+<% end %>
+
+<div class="main container padding">
+  <%= render 'left' %>
+  <!-- 页面内容 -->
+  <div class="page">
+    <%= form_for @life, method: :put do |f| %>
+    <div class="row">
+      <div class="label"><%= t('live.stream_key')%></div>
+      <div class="text">
+        <%= @life.rtmp_live_address %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label"><%= t('live.address')%></div>
+      <div class="text">
+        <%= link_to t('live.address_link'), life_path( @life) %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label"><%= t('live.name')%></div>
+      <div class="input">
+        <%= f.text_area :name, :row => "10" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label"><%= t('live.name_en')%></div>
+      <div class="input">
+        <%= f.text_area :name_en, :row => "10" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label"></div>
+      <div class="input">
+        <%= image_tag @life.logo.url, :style => "max-height: 80px;width: 100%" if @life.logo.present? %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label"><%= t('live.logo')%></div>
+      <div class="input">
+        <%= f.file_field :logo, :row => "10" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label"></div>
+      <div class="input">
+        <%= image_tag @life.image.url, :style => "max-height: 80px;width: 100%" if @life.image.present? %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label"><%= t('live.image')%></div>
+      <div class="input">
+        <%= f.file_field :image, :row => "10" %>
+      </div>
+    </div>
+    <h3>Attachment</h3>
+
+      <div id="attachments">
+        <%= f.fields_for :attachments do |attachment|%>
+          <div class="row">
+            <%= render 'attachment_fields', f: attachment %>
+          </div>
+        <% end %>
+        <div class="links">
+          <%= link_to_add_association t('attachment.add'), f, :attachments %>
+        </div>
+      </div>
+
+      <div class="row submit">
+      <%= f.button '保存修改'%>
+      </div>
+    <% end %>
+    <!--
+    <div class="row homepage">
+      <div class="label"><%= t('case.company_index')%></div>
+      <div class="input">
+        <a href="<%= company_path(@company, :locale => 'zh-CN')%>" class="link"><%= t('case.company_view') %></a>
+        <a href="<%= edit_company_path(@company, :locale => 'zh-CN')%>"><button><%= t('case.company_edit') %></button></a>
+      </div>
+    </div>
+
+    <div class="row homepage">
+      <div class="label"><%= t('case.company_index_en')%></div>
+      <div class="input">
+        <a href="<%= company_path(@company, :locale => 'en')%>" class="link"><%= t('case.company_view') %></a>
+        <a href="<%= edit_company_path(@company, :locale => 'en')%>"><button><%= t('case.company_edit') %></button></a>
+      </div>
+    </div>
+    -->
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<% content_for :title do %>
+<title><%= t('SignIn')%></title>
+<% end %>
+
+<% content_for :javascript do %>
+<% end %>
+<% if flash[:error] %>
+<div class="alert"><%= flash[:error] %></div>
+<% end %>
+<div class="b1">
+  <div class="t1">LINKING DESIGN<br>
+AND INDUSTRY,<br>
+CREATING VALUE<br>
+FOR BUSINESS
+</div>
+  <div class="t2">连接设计 | 促进产业 | 提示价值</div>
+  <img src="https://assets.zjzsxhy.com/upload/48addb93-4265-4750-abc8-a4bad00b6dd6.svg" alt="" class="logo">
+</div>
+<div class="b2">
+  <div class="opt">
+   <%= link_to I18n.t('back_to_home'), root_path%>
+  <span><%= t("don't_have") %>? </span><a href="<%= sign_up_index_path %>"><%= t('sign_up')%></a>
+        <% if params[:locale] == ('en' || nil) %>
+        <a href="<%= request.path.gsub(/\A\/en/, '/zh-CN') %>"><button class="lang-btn" style="vertical-align: middle;">中</button></a>
+      <% else %>
+        <a href="<%= request.path.gsub(/\A\/zh-CN/, '/en') %>"><button class="lang-btn" style="vertical-align: middle;">EN</button></a>
+      <% end %>
+  </div>
+  <%= form_for :user, url: { action: "create" } do |f| %>
+    <div class="t1"><%= I18n.locale == :en ? 'Sign In' : '登录到PDC' %></div>
+    <div class="label">E-mail</div>
+    <div class="input">
+      <%= f.text_field :email %>
+    </div>
+    <div class="label"><%= t('password')%><a href="<%= recover_password_index_path %>"><%= t('dashboard.left.recover_password')%></a></div>
+    <div class="input">
+      <%= f.password_field :password %>
+    </div>
+    <div class="submit">
+      <%= f.button '登录' %>
+    </div>
+  <% end %>
+</div>

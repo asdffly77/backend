@@ -1,0 +1,20 @@
+<% content_for :title do %>
+<title><%= @company.name_i18n_show %></title>
+
+<% end %>
+
+<% content_for :javascript do %>
+  <%= javascript_include_tag 'company.js'%>
+<% end %>
+<script>
+  window.PAGE_DATA = <%= raw (@company.detail_i18n_show || {}) %>
+</script>
+
+<div class="container padding" style="min-height: 65vh">
+  <div id="holder"></div>
+</div>
+<div id="hiddenHolder" style="display: none;"></div>
+
+<% if @company.user.present? %>
+  <%= link_to t('chat'), chat_path(@company.user.id), class: 'contact-me' %>
+<% end %>

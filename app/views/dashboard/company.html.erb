@@ -1,0 +1,112 @@
+<% content_for :title do %>
+<title><%= t('CompanyManage') %></title>
+<% end %>
+
+<% content_for :javascript do %>
+<% end %>
+
+<div class="main container padding">
+  <%= render 'left' %>
+  <!-- 页面内容 -->
+  <div class="page">
+      <%= form_for @company, method: :put do |f| %>
+      <div class="row">
+        <div class="label"><%= t('dashboard.company_name')%></div>
+          <div class="input">
+            <%= f.text_field :name, :row => "10" %>
+          </div>
+      </div>
+      <div class="row">
+        <div class="label"><%= t('dashboard.company_name_en')%></div>
+          <div class="input">
+            <%= f.text_field :name_en, :row => "10" %>
+          </div>      </div>
+      <div class="row">
+        <div class="label"><%= t('dashboard.company_classify')%></div>
+          <div class="input" style="display:block">
+          <% CompanyClassify.send(@company.company_type).each do |classify| %>
+            <%= f.check_box(:company_classifies, { :multiple => true, :checked => @company.company_classifies.pluck(:id).include?(classify.id) }, classify.id) %>
+            <%= classify.name_i18n_show %><br>
+          <% end %>
+          </div>
+        </div>
+      <div class="row">
+        <div class="label"><%= t('dashboard.company_tag')%></div>
+          <div class="input" style="display:block">
+          <% CompanyClassify.for_search.each do |classify| %>
+            <%= f.check_box(:company_classifies, { :multiple => true, :checked => @company.company_classifies.pluck(:id).include?(classify.id) }, classify.id) %>
+            <%= classify.name_i18n_show %><br>
+          <% end %>
+          </div>
+        </div>
+      <div class="row">
+        <div class="label"><%= t('dashboard.company_phone_number')%></div>
+          <div class="input">
+            <%= f.number_field :phone_number, :row => "10" %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="label"><%= t('dashboard.company_description')%></div>
+          <div class="input">
+            <%= f.text_area :description, :row => "10" %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="label"><%= t('dashboard.company_description_en')%></div>
+          <div class="input">
+            <%= f.text_area :description_en, :row => "10" %>
+          </div>
+        </div>
+        
+        <% if @audit %>
+          <div class="row">
+            <div class="label"><%= t('dashboard.description_audit')%></div>
+            <div class="display"><%= @audit.description %></div>
+          </div>
+          <div class="row">
+            <div class="label"><%= t('dashboard.description_en_audit')%></div>
+            <div class="display"><%= @audit.description_en %></div>
+          </div>
+        <% end %>
+        
+        <div class="row">
+          <div class="label"></div>
+          <div class="input">
+            <%= image_tag @company.logo.url, :style => "max-height: 80px;width: 100%" if @company.logo.present? %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="label">公司展示缩略图<br>（尺寸： 285*185px）</div>
+          <div class="input">
+          
+          <% if @require_image %>
+            <%= f.file_field :logo, :row => "10", required: 'required' %>
+          <% else %>
+            <%= f.file_field :logo, :row => "10" %>
+          <% end %>
+          
+          </div>
+        </div>
+        <div class="row submit">
+        <%= f.button '保存修改'%>
+        </div>
+      <% end %>
+      
+      <div class="row homepage">
+        <div class="label"><%= t('dashboard.company_index')%></div>
+        <div class="input">
+          <a href="<%= company_path(@company, :locale => 'zh-CN')%>" class="link"><%= t('dashboard.company_view') %></a>
+          <a href="<%= edit_company_path(@company, :locale => 'zh-CN')%>"><button><%= t('dashboard.company_edit') %></button></a>
+        </div>
+      </div>
+
+      <div class="row homepage">
+        <div class="label"><%= t('dashboard.company_index_en')%></div>
+        <div class="input">
+          <a href="<%= company_path(@company, :locale => 'en')%>" class="link"><%= t('dashboard.company_view') %></a>
+          <a href="<%= edit_company_path(@company, :locale => 'en')%>"><button><%= t('dashboard.company_edit') %></button></a>
+        </div>
+      </div>
+
+  </div>
+</div>

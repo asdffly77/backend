@@ -1,0 +1,139 @@
+<% content_for :title do %>
+<title><%= t('sign_up')%></title>
+<% end %>
+
+<% content_for :javascript do %>
+<script>
+
+var InterValObj; //timer变量，控制时间
+var count = 60; //间隔函数，1秒执行
+var curCount;//当前剩余秒数
+function sendMessage() {
+curCount = count;
+// 设置button效果，开始计时
+document.getElementById("send").setAttribute("disabled","true" );//设置按钮为禁用状态
+document.getElementById("send").innerHTML=curCount + "s";//更改按钮文字
+InterValObj = window.setInterval(SetRemainTime, 1000); // 启动计时器timer处理函数，1秒执行一次
+// 向后台发送处理数据
+$.ajax({
+  type: "POST", // 用POST方式传输
+  url: "<%= send_code_sign_up_index_path %>", // 目标地址
+  data: {email: document.getElementById("user_email").value},
+success: function (data){ 
+  console.log(data);
+}});
+};
+
+//timer处理函数
+function SetRemainTime() {
+if (curCount == 0) {                
+  window.clearInterval(InterValObj);// 停止计时器
+  document.getElementById("send").removeAttribute("disabled");//移除禁用状态改为可用
+  document.getElementById("send").innerHTML="<%= t('dashboard.send') %>";
+} else {
+curCount--;
+  document.getElementById("send").innerHTML=curCount + "s";
+}}
+$("#send").click(function(event){
+  sendMessage();
+  event.preventDefault(); // cancel default behavior
+});
+</script>
+<% end %>
+
+<!-- TODO: 警告 -->
+<%# <div class="alert">抱歉给您带来不便，请稍后尝试</div> %>
+<% if flash[:error] %>
+<div class="alert"><%= flash[:error] %></div>
+<% end %>
+<div class="b1">
+  <div class="t1">LINKING DESIGN<br>
+AND INDUSTRY,<br>
+CREATING VALUE<br>
+FOR BUSINESS
+</div>
+  <div class="t2">连接设计 | 促进产业 | 提示价值</div>
+  <img src="https://assets.zjzsxhy.com/upload/48addb93-4265-4750-abc8-a4bad00b6dd6.svg" alt="" class="logo">
+</div>
+<div class="b2">
+  <div class="opt">
+   <%= link_to I18n.t('back_to_home'), root_path%>
+  <span><%= t('already_have') %>? </span><a href="<%= new_session_path %>"><%= t('log_in')%></a>
+        <% if params[:locale] == ('en' || nil) %>
+        <a href="<%= request.path.gsub(/\A\/en/, '/zh-CN') %>"><button class="lang-btn" style="vertical-align: middle;">中</button></a>
+      <% else %>
+        <a href="<%= request.path.gsub(/\A\/zh-CN/, '/en') %>"><button class="lang-btn" style="vertical-align: middle;">EN</button></a>
+      <% end %>
+  </div>
+  <%= form_for :user, url: {action: :create} do |f| %>
+    <div class="t1"><%= t('sign_up')%></div>
+    <div class="label"><%= t('user_type') %></div>
+    <div class="input type">
+      <div>
+        <%= f.radio_button :user_type, 'purchase', required: 'required'%> 
+        <%= f.label :user_type, I18n.t('purchase'), :value => 'purchase' %>
+      </div>
+      <div>
+        <%= f.radio_button :user_type, 'production_enterprise', required: 'required'%> 
+        <%= f.label :user_type, I18n.t('production_enterprise'), :value => 'production_enterprise' %>
+      </div>
+      <div>
+        <%= f.radio_button :user_type, 'designer', required: 'required'%> 
+        <%= f.label :user_type, I18n.t('designer'), :value => 'designer' %>
+      </div>
+      <div>
+        <%= f.radio_button :user_type, 'other', required: 'required'%> 
+        <%= f.label :user_type, I18n.t('other'), :value => 'other' do%>
+          <%= t('other')%>
+          <%= f.text_field :user_remask %>
+        <% end %>
+      </div>
+    </div>
+    <div class="label">E-mail</div>
+    <div class="input email">
+      <%= f.email_field :email, required: 'required' %>
+      <button id="send"><%= t('dashboard.send')%></button>
+    
+      <%# <button>发送验证码</button> %>
+    </div>
+    <div class="label"><%= t('dashboard.verify_code')%></div>
+    <div class="input">
+      <%= f.text_field :verify_code, required: 'required' %>
+    </div>
+    <div class="label"><%= t('password') %></div>
+    <div class="input">
+      <%= f.password_field :password, required: 'required' %>
+    </div>
+    <div class="label"><%= t('company_name') %></div>
+    <div class="input">
+      <%= f.text_field :company_name, required: 'required' %>
+    </div>
+    <div class="label"><%= t('phone_number') %></div>
+    <div class="input">
+    
+    <% if I18n.locale == :en %>
+      
+      <%= f.text_field :phone_number, required: 'required' %>
+    <% else %>
+      <%= f.telephone_field :phone_number, minlength: "11", maxlength: "11", required: 'required' %>
+      
+    <% end %>
+    
+    </div>
+    <div class="label"><%= t('name') %></div>
+    <div class="input">
+      <%= f.text_field :name, required: 'required' %>
+    </div>
+    <div class="input">
+      <%= f.check_box :terms_of_service, required: 'required', :style => 'width: auto;'%>
+      <%= f.label :terms_of_service, t('user_agreement_text', link: link_to(t('user_agreement'), user_agreement_index_path, :target => '_blank')).html_safe %>
+    </div>
+    <%# <div class="input agree">
+      <input type="checkbox" name="agree" id="agree">
+      <label for="agree">创建账户即意味着您可以接受我们的<a href="#">服务条款</a>，<a href="#">隐私政策</a>和默认的通知设置。</label>
+    </div> %>
+    <div class="submit">
+      <button><%= t('sign_up') %></button>
+    </div>
+    <%end%>
+  </div>

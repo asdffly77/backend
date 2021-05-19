@@ -1,0 +1,58 @@
+<% content_for :title do %>
+<title><%= t('CompanyManage')%></title>
+
+<% end %>
+
+<% content_for :javascript do %>
+  <%= javascript_include_tag 'editor.js' %>
+<% end %>
+<script>
+    window.PAGE_DATA = <%= raw (@detail || {
+      type: 'Config',
+      data: {
+        pageBackground: '#100e0f',
+        textColor: '#fcb141',
+        maxContainerWidth: 1200,
+      }
+    }.to_json) %>
+</script>
+  <div class="alert">
+    <div class="opt">
+      <button class="editor-btn active"><%= t('company.edit.edit_mode')%></button>
+      <button class="preview-btn"><%= t('company.edit.preview_mode')%></button>
+    </div>
+  </div>
+  <div id="editor-main" class="container padding">
+    <div id="holder"></div>
+  </div>
+  <div class="page-save container padding">
+    <button id="save"><%= t('company.edit.submit')%></button>
+  </div>
+<%= form_for @company do |f|%>
+  <%= f.hidden_field I18n.locale == :en ? 'detail_en' : 'detail'%>
+<% end %>
+
+
+<% if I18n.locale == :en %>
+<script>
+  window.PAGE_SAVE = function (data) {
+    // TODO: 保存数据
+    console.log(data);
+    alert('PDC已对您的编辑内容进行审核，审核通过获得上线，请稍等。');
+    document.getElementById("company_detail_en").value = JSON.stringify(data);
+    document.getElementsByClassName('edit_company')[0].submit();
+  }
+</script>
+<% else %>
+  <script>
+  window.PAGE_SAVE = function (data) {
+    // TODO: 保存数据
+    console.log(data);
+    alert('PDC has reviewed your editorial content. The review will be online, please wait.')
+    document.getElementById("company_detail").value = JSON.stringify(data);
+    document.getElementsByClassName('edit_company')[0].submit();
+  }
+</script>
+<% end %>
+
+  

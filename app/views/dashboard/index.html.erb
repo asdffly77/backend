@@ -1,0 +1,446 @@
+<% content_for :title do %>
+<title><%= t('dashboard.left.user_center')%></title>
+<style>
+.alert {
+      position: fixed;
+    width: 100%;
+    z-index: 10;
+    background: #ED625C;
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    padding: 12px 0;
+}
+/*avatar upload module*/
+.avatar-upload__shell {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+/*module wrapper*/
+.avatar-upload__wrapper {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+/*input element positioned over module, transparent*/
+.avatar-upload__wrapper input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	opacity: 0;
+}
+
+/*wraps the "real" image. width is increased during upload progress*/
+.avatar-upload__image-wrapper {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: hidden;
+	width: 0%;
+}
+
+/*general image positioning*/
+.avatar-upload__wrapper img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+/*"real" image width auto so it doesn't resize as wrapper width increases on progress*/
+.avatar-upload__image-wrapper img {
+	width: auto;
+}
+
+/*progress text is vertically aligned in the middle*/
+.avatar-upload__progress-wrapper {
+	position: relative;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	z-index: 1;
+	width: 100%;
+	text-align: center;
+	font-size: 2.2em;
+	color: white;
+	text-shadow: 1px 1px rgba(0,0,0,.7);
+}
+
+/*the "faded" image appears in the background of the upload, becoming covered by real image*/
+.avatar-upload__faded-image {
+	opacity: .3;
+}
+
+/*when no upload is in progress, the "real" image should be fully visible*/
+.avatar-upload--complete .avatar-upload__image-wrapper {
+	width: 100%;
+}
+
+/*when no upload is in progress, progress is hidden*/
+.avatar-upload--complete .avatar-upload__progress-wrapper {
+	display: none;
+}
+
+/*when no upload is in progress, the "faded" image is hidden*/
+.avatar-upload--complete .avatar-upload__faded-image {
+	display: none;
+}
+</style>
+<script>
+(function ( root, factory ) {
+	if ( typeof define === 'function' && define.amd ) {
+		// AMD. Register as an anonymous module.
+		define(function () {
+			// Also create a global in case some scripts
+			// that are loaded still are looking for
+			// a global even when an AMD loader is in use.
+			return ( root.AvatarUpload = factory() );
+		});
+	} else {
+		// Browser globals
+		root.AvatarUpload = factory();
+	}
+}( this, function () {
+
+	var extend = function(original, extra) {
+		return Object.keys(extra).forEach(function(key) {
+			original[key] = extra[key];
+		});
+	};
+
+	var parseJson = function(input) {
+		try {
+			return JSON.parse(input);
+		}
+		catch (e) {
+			return false;
+		}
+	};
+
+	var AvatarUpload = function(config) {
+		extend(this.config, config);
+
+		if ( ! this.config.el) {
+			throw new Error('An element is required to manipulate');
+		}
+
+		if ( ! this.config.uploadUrl && ! this.config.pretendUpload) {
+			throw new Error('Upload URL not specified');
+		}
+
+		this.el = this.config.el;
+		this.renderInput();
+		this.bindInput();
+
+		this.progressText = this.el.querySelector('span');
+		this.imageWrapper = this.el.querySelector('.avatar-upload__image-wrapper');
+	};
+
+	AvatarUpload.prototype.config = {
+		el: undefined,
+
+		uploadUrl: '',
+		uploadMethod: 'post',
+		uploadImageKey: 'upload',
+		uploadData: {},
+
+		pretendUpload: false,
+
+		onProgress: undefined,
+		onSuccess: undefined,
+		onError: undefined
+	};
+
+	AvatarUpload.prototype.renderInput = function() {
+		var imgEl = this.el.querySelector('img'),
+			img = imgEl.src;
+
+		var el = document.createElement('div');
+		el.className = 'avatar-upload__shell';
+
+		el.innerHTML = [
+			'<div class="avatar-upload__wrapper avatar-upload--complete">',
+				'<div class="avatar-upload__image-wrapper">',
+					'<img src="'+img+'">',
+				'</div>',
+				'<img src="'+img+'" class="avatar-upload__faded-image">',
+				'<div class="avatar-upload__progress-wrapper">',
+					'<span>0%</span>',
+				'</div>',
+				'<input type="file">',
+			'</div>',
+		].join('');
+
+		imgEl.parentNode.removeChild(imgEl);
+		this.el.appendChild(el);
+
+		return this;
+	};
+
+	AvatarUpload.prototype.bindInput = function(event) {
+		this.el.querySelector('input').addEventListener(
+			'change', this.initiateUpload.bind(this), true
+		);
+	};
+
+	AvatarUpload.prototype.initiateUpload = function(event) {
+		var file = event.target.files[0];
+
+		// reset input to allow selecting same file again
+		event.target.value = null;
+
+		if ( ! file.type.match(/image.*/)) return;
+
+		// read file & run upload
+		var reader = new FileReader;
+		reader.onload = this.displayUpload.bind(this);
+		reader.readAsDataURL(file);
+
+		this.upload(file);
+	};
+
+	AvatarUpload.prototype.displayUpload = function(event) {
+		var img = event.target.result;
+
+		this.uiUploadStart(img);
+	};
+
+	AvatarUpload.prototype.upload = function(file) {
+		var Uploader = this.config.pretendUpload ? FakeUploader : XhrUploader;
+
+		Uploader(file, this.config, {
+			progress: this.uploadProgress.bind(this),
+			success: this.uploadSuccess.bind(this),
+			error: this.uploadError.bind(this),
+		});
+	};
+
+	AvatarUpload.prototype.uploadProgress = function(progress) {
+		this.uiUploadProgress(progress);
+		if (this.config.onProgress) this.config.onProgress(progress, this.el, this);
+	};
+
+	AvatarUpload.prototype.uploadSuccess = function(xhr, json) {
+		this.uiUploadSuccess(xhr, json);
+		if (this.config.onSuccess) this.config.onSuccess(xhr, json);
+	};
+
+	AvatarUpload.prototype.uploadError = function(xhr, json) {
+		this.uiUploadError(xhr, json);
+		if (this.config.onError) this.config.onError(xhr, json);
+	};
+
+	AvatarUpload.prototype.uiUploadStart = function(img) {
+		var origSrc;
+
+		Array.prototype.forEach.call(this.el.querySelectorAll('img'), function(imgEl) {
+			origSrc = imgEl.src;
+			imgEl.src = img;
+		});
+
+		this.origSrc = origSrc;
+
+		this.el.querySelector('.avatar-upload__wrapper').className = 'avatar-upload__wrapper'; // remove complete class
+	};
+
+	AvatarUpload.prototype.uiUploadProgress = function(progress) {
+		this.progressText.textContent = progress+'%';
+		this.imageWrapper.style.width = progress+'%';
+	};
+
+	AvatarUpload.prototype.uiUploadSuccess = function(xhr, json) {
+		this.progressText.textContent = '0%';
+		this.imageWrapper.style.width = null;
+		this.el.querySelector('.avatar-upload__wrapper').className = 'avatar-upload__wrapper avatar-upload--complete';
+	};
+
+	AvatarUpload.prototype.uiUploadError = function(xhr, json) {
+		this.uiUploadSuccess();
+
+		var origSrc = this.origSrc;
+		Array.prototype.forEach.call(this.el.querySelectorAll('img'), function(imgEl) {
+			imgEl.src = origSrc;
+		});
+	};
+
+	var FakeUploader = function(file, config, callbacks) {
+		var progress = 0;
+		var id = setInterval(function() {
+			progress += 1;
+			// if (progress == 50) {
+			// 	callbacks.error();
+			// 	return clearInterval(id);
+			// }
+			if (progress > 100) {
+				callbacks.success();
+				return clearInterval(id);
+			}
+			callbacks.progress(progress);
+		}, 50);
+	};
+
+	var XhrUploader = function(file, config, callbacks) {
+		var xhr = new XMLHttpRequest(),
+			formData = new FormData();
+
+		xhr.upload.addEventListener('progress', function(transfer) {
+			callbacks.progress(parseInt(
+				transfer.loaded / transfer.total * 100
+			, 10));
+		});
+
+		xhr.onreadystatechange = function(e) {
+			if (xhr.readyState !== 4) return;
+
+			if (xhr.status === 200) {
+				callbacks.success(xhr, parseJson(xhr.response));
+			}
+			else {
+				callbacks.error(xhr, parseJson(xhr.response));
+			}
+		};
+
+		formData.append(config.uploadImageKey, file);
+
+		for (val in config.uploadData) {
+			formData.append(val, config.uploadData[val]);
+		}
+
+		xhr.open(config.uploadMethod, config.uploadUrl);
+		xhr.send(formData);
+	};
+
+	return AvatarUpload;
+
+}));
+</script>
+<% end %>
+
+<% content_for :javascript do %>
+<script>
+  new AvatarUpload({
+    el: document.querySelector('.avatar-upload'),
+    uploadUrl: '/en/users'
+  });
+</script>
+<% end %>
+
+<% if flash[:error] %>
+<div class="alert"><%= flash[:error] %></div>
+<% end %>
+<div class="main container padding">
+  <%= render 'left' %>
+
+  <!-- 页面内容 -->
+  <div class="page">
+    <div class="info">
+      <div class="avatar avatar-upload"><%= image_tag current_user.image&.url || current_user.gravatar_url, :class => "gravatar" %></div>
+      <div class="text">
+        <div class="name">ID: <%= current_user.id %></div>
+        <div class="id">E-mail: <%= current_user.email %></div>
+      </div>
+    </div>
+    <!-- 
+    <div class="row">
+      <div class="label">E-mail: </div>
+      <div class="display"><%= current_user.email %></div>
+    </div>
+    -->
+    
+    <% if @company&.allow? %>
+      <div class="line"><span><%= t('dashboard.online_show')%></span></div>
+    <% else %>
+      <div class="line"><span><%= t('dashboard.request_online_show')%></span></div>
+    <% end %>
+    
+    <!-- TODO: 状态：未申请状态、修改状态 -->
+    
+    <% unless @company.present?%>
+      <%= form_for :company, url: {:controller => :companies, :action => :create} do |f| %>
+        <div class="row">
+          <div class="label"><%= t('dashboard.company_name') %></div>
+          <div class="input">
+            <%= f.text_area :name, required: 'required' %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="label"><%= t('dashboard.company_name_en') %></div>
+          <div class="input">
+            <%= f.text_area :name_en, required: 'required' %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="label"><%= t('dashboard.company_phone_number') %></div>
+          <div class="input">
+          <div class="input">
+            <%= f.text_area :phone_number, required: 'required' %>
+          </div></div>
+        </div>
+        <div class="row">
+          <div class="label"><%= t('dashboard.company_type') %></div>
+          <div class="input">
+            <%- Company.company_types.each do |k, v| %>
+              <div>
+                <%= f.radio_button :company_type, k, required: 'required' %> 
+                <%= f.label :company_type, I18n.t("#{k}_company"), :value => k %>
+              </div>
+            <%- end%>
+          </div>
+        </div>
+        <div class="row">
+          <div class="label"><%= t('dashboard.company_description') %></div>
+          <div class="input">
+            <%= f.text_area :description, required: 'required' %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="label"><%= t('dashboard.company_description_en') %></div>
+          <div class="input">
+            <%= f.text_area :description_en, required: 'required' %>
+          </div>
+        </div>
+        <div class="row submit">
+          <button><%= t('dashboard.submit') %></button>
+        </div>
+      <% end %>
+    <% else %>
+      
+      <% if @company.allow? %>
+        <div>
+          <div class="row">
+            <div class="label"><%= t('dashboard.company_name')%></div>
+            <div class="display"><%= @company.name%></div>
+          </div>
+          <div class="row">
+            <div class="label"><%= t('dashboard.company_name_en')%></div>
+            <div class="display"><%= @company.name_en%></div>
+          </div>
+          <div class="row">
+            <div class="label"><%= t('dashboard.company_phone_number')%></div>
+            <div class="display"><%= @company.phone_number%></div>
+          </div>
+          <div class="row">
+            <div class="label"><%= t('dashboard.company_description')%></div>
+            <div class="display"><%= @company.description_i18n_show %></div>
+          </div>
+          <div class="row submit">
+            <button><%= link_to t('dashboard.company_edit'), company_dashboard_index_path, :style => 'color: #fff'%></button>
+          </div>
+        </div>
+      <% else %>
+        <div class="pending">
+          <div class="t1"><img src="https://assets.zjzsxhy.com/upload/5405c5d9-ac24-471b-8063-57311520d883.svg" alt=""></div>
+          <div class="t2"><%= t('dashboard.auditing')%></div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

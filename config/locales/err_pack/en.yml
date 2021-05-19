@@ -1,0 +1,25 @@
+en:
+  err_item:
+    app_auth:
+      user_not_found:
+        message: User authentication failed, please login again
+        code: "000000"
+      wrong_params:
+        message: Request parameter error
+        code: "000001"
+      app_not_found:
+        message: Illegal request
+        code: "000002"
+      timeout:
+        message: Time error, please check the equipment
+        code: "000003"
+      need_upgrade:
+          message: App version is expired, please upgrade.
+          code: "000004"
+    auth_user_service:
+      wrong_email:
+        message: Wrong customer email or password, please try again.
+        code: "000101"
+      wrong_phone:
+        message: Wrong customer phone number or password, please try again.
+        code: "000102"

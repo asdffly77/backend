@@ -1,0 +1,94 @@
+<% content_for :title do %>
+<title><%= t('one_key_request') %></title>
+<% end %>
+
+<% content_for :javascript do %>
+<% end %>
+  <div class="form-page easy-form">
+    <div class="title"><img src="https://assets.zjzsxhy.com/upload/71768127-d84a-48c4-b3a3-074a555b50f5.svg" alt=""></div>
+    <div class="content">
+      <div class="row t1"></div>
+      <!-- TODO: 自己拼接表单
+      <div class="row">
+        <input type="text" placeholder="单行输入">
+      </div>
+      <div class="row">
+        <input type="text" style="width: 40%;" placeholder="两个输入1，40%宽">
+        <input type="text" style="width: 60%;" placeholder="两个输入2，60%宽">
+      </div>
+      <div class="row">
+        <input type="text" style="width: 40%;" placeholder="两个输入 + 按钮">
+        <button style="width: 200px;">按钮</button>
+      </div>
+      <div class="row">
+        <textarea name="" id="" cols="30" rows="5" placeholder="文本域"></textarea>
+      </div>
+      <div class="row submit">
+        <button><%= t('submit') %></button>
+      </div> -->
+        <%= form_for @demand, url: { action: "create" } do |f| %>
+          <div class="row">
+            <%= f.label :company_name, style: 'width: 25%' %>
+            <%= f.text_field :company_name, required: 'required' %>
+          </div>
+          <div class="row">
+            <%= f.label :company_type, style: 'width: 25%' %>
+            <%= f.select :company_type, Demand.company_type_select_field, required: 'required' %>
+          </div>
+          <div class="row">
+            <%= f.label :scope_of_business, style: 'width: 25%' %>
+            <%= f.text_field :scope_of_business, required: 'required' %>
+          </div>
+          <div class="row">
+            <%= f.label :income_type, style: 'width: 25%' %>
+            <%= f.select :income_type, Demand.income_type_select_field, required: 'required' %>
+          </div>
+          <div class="row">
+            <%= f.label :contract_name, style: 'width: 25%' %>
+            <%= f.text_field :contract_name, required: 'required' %>
+          </div>
+          <div class="row">
+            <%= f.label :contract_phone_number, style: 'width: 25%' %>
+            <%= f.text_field :contract_phone_number, required: 'required' %>
+          </div>
+          <div class="row">
+            <%= f.label :contract_email, style: 'width: 25%' %>
+            <%= f.email_field :contract_email, required: 'required' %>
+          </div>
+          <div class="row">
+            <%= f.label :contract_address, style: 'width: 25%' %>
+            <%= f.text_field :contract_address, required: 'required' %>
+          </div>
+          <div class="row">
+            <%= f.label :demand_type, style: 'width: 25%' %>
+            <%= f.select :demand_type, Demand.demand_type_select_field, required: 'required' %>
+          </div>
+          <div class="row">
+            <%= f.label :product_type, style: 'width: 25%' %>
+            <%= f.select :product_type, Demand.product_type_select_field, required: 'required' %>
+          </div>
+
+          <div class="row">
+            <%= f.label :end_at, style: 'width: 25%' %>
+            <%= f.date_field :end_at, required: 'required' %>
+          </div>
+
+          <div class="row">
+            <%= f.label :detail, style: 'width: 25%' %>
+            <%= f.text_area :detail, required: 'required' %>
+          </div>
+
+          <div class="row submit">
+            <%= f.button t('dashboard.submit')%>
+          </div>
+        <% end %>
+    </div>
+    
+    <% if params[:locale] == 'en' %>
+      <div class="desc">Our professional services team will contact you by phone or email as soon as possible</div>
+      
+    <% else %>
+      <div class="desc">我们的专业服务团队将会尽快通过电话或邮件联系您</div>
+    <% end %>
+    
+  </div>

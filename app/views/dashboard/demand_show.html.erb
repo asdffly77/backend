@@ -1,0 +1,21 @@
+<% content_for :title do %>
+<title><%= t('Demands') %></title>
+<% end %>
+
+<% content_for :javascript do %>
+<% end %>
+
+<div class="main container padding">
+  <%= render 'left' %>
+  <!-- 页面内容 -->
+  <div class="page">
+  <% t('activerecord.attributes.demand').keys.each do |key|%>
+    <div class="row">
+      <div class="label"><%= t("activerecord.attributes.demand.#{key}")%></div>
+      <div class="display"><%= %w(company_type income_type demand_type product_type).include?(key.to_s) ? t("demand.#{key}")[@demand.send(key)&.to_sym] : @demand.send(key) %></div>
+    </div>
+  <% end %> 
+  </div>
+  
+  
+</div>

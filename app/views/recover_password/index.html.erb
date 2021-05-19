@@ -1,0 +1,80 @@
+<% content_for :title do %>
+<title><%= t('dashboard.left.recover_password')%></title>
+<% end %>
+
+<% content_for :javascript do %>
+<script>
+
+var InterValObj; //timer变量，控制时间
+var count = 60; //间隔函数，1秒执行
+var curCount;//当前剩余秒数
+function sendMessage() {
+curCount = count;
+// 设置button效果，开始计时
+document.getElementById("send").setAttribute("disabled","true" );//设置按钮为禁用状态
+document.getElementById("send").innerHTML=curCount + "s";//更改按钮文字
+InterValObj = window.setInterval(SetRemainTime, 1000); // 启动计时器timer处理函数，1秒执行一次
+// 向后台发送处理数据
+$.ajax({
+  type: "POST", // 用POST方式传输
+  url: "<%= send_code_recover_password_index_path %>", // 目标地址
+  data: {email: document.getElementById("recover_password_email").value},
+success: function (data){ 
+  console.log(data);
+}});
+};
+
+//timer处理函数
+function SetRemainTime() {
+if (curCount == 0) {                
+  window.clearInterval(InterValObj);// 停止计时器
+  document.getElementById("send").removeAttribute("disabled");//移除禁用状态改为可用
+  document.getElementById("send").innerHTML="<%= t('dashboard.send') %>";
+} else {
+curCount--;
+  document.getElementById("send").innerHTML=curCount + "s";
+}}
+$("#send").click(function(event){
+  sendMessage();
+  event.preventDefault(); // cancel default behavior
+});
+</script>
+<% end %>
+<% if flash[:error] %>
+<div class="alert"><%= flash[:error] %></div>
+<% end %>
+<div class="b1">
+  <div class="t1">GLOBAL DESIGNERS ALLIANCES</div>
+  <div class="t2">全球设计师联盟</div>
+  <img src="https://assets.zjzsxhy.com/upload/7d99aad7-e845-4e6c-a864-c419acf8b327.svg" alt="" class="logo">
+</div>
+<div class="b2">
+  <div class="opt">
+   <%= link_to I18n.t('back_to_home'), root_path%>
+  <span><%= t('already_have') %>? </span><a href="<%= new_session_path %>"><%= t('log_in')%></a>
+    <% if params[:locale] == ('en' || nil) %>
+    <a href="<%= request.path.gsub(/\A\/en/, '/zh-CN') %>"><button class="lang-btn" style="vertical-align: middle;">中</button></a>
+  <% else %>
+    <a href="<%= request.path.gsub(/\A\/zh-CN/, '/en') %>"><button class="lang-btn" style="vertical-align: middle;">EN</button></a>
+  <% end %>
+  </div>
+  <%= form_for :recover_password, url: { action: "create" } do |f| %>
+    <div class="t1"><%= t('dashboard.left.recover_password')%></div>
+    <div class="label">E-mail</div>
+    <div class="input email">
+      <%= f.email_field :email, required: 'required' %>
+      <button id="send"><%= t('dashboard.send')%></button>
+    </div>
+    <div class="label"><%= t('dashboard.verify_code')%></div>
+    <div class="input">
+      <%= f.text_field :verify_code, required: 'required' %>
+    </div>
+    <div class="label"><%= t('password')%></div>
+    <div class="input">
+      <%= f.password_field :password, required: 'required' %>
+    </div>
+    <div class="submit">
+      <%= f.button t('dashboard.submit') %>
+    </div>
+  <% end %>
+</div>

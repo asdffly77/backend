@@ -1,0 +1,15 @@
+<div class="nested-fields">
+  <div class="nested-fields">
+    <div class="row">
+
+      <div class="label">
+        <%= f.label :file %>
+      </div>
+      <div class="input">
+        <%= f.file_field :file, :row => "10" %>
+        <%= link_to_remove_association t('attachment.remove'), f %>
+
+      </div>
+    </div>
+  </div>
+</div>

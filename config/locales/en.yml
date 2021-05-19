@@ -1,0 +1,220 @@
+en:
+  time:
+    formats:
+      long: long
+  Home: Home
+  Design: Design Show
+  Manufacture: Manufacture Show
+  FashionWeek: Fashion Week
+  Activity: Design Events
+  Live: Live Broadcasting
+  News: News
+  About: About PDC
+  SignIn: Sign In
+  LiveManage: Live Manage
+  home_recommend_company: Recommendation
+  more_design_company: More
+  more_clothing_company: More
+  more: More→
+  design_activities_description: 'Enhance the added value of products, assist enterprises in transformation and upgrading, and release the latest design concept of new products'
+  home_new_description: 'Launching ｜ Design Communication ｜ Case Sharing'
+  more_news: 'More'
+  friend_links: 'Partners'
+  friend_link_description: 'PDC is committed to the integration of international design industry.'
+  clothing_companies: 'Fashion Brands'
+  conton_fair_live: 'Canton Fair Fashion Week'
+  activity_live: 'Design Forum'
+  design_live: 'Design Companies'
+  clothing_live: 'Fashion Brands'
+  CompanyManage: Company Manage
+  one_key_request: Intelligent Matching
+  translate: Translate
+  contact_index: Chat
+  user_agreement_text: I have read and agree to %{link}
+  user_agreement: Terms of service and privacy
+  company:
+    edit:
+      submit: Submit
+      edit_mode: Edit Mode
+      preview_mode: Preview Mode
+  chat: Contact Me
+  dashboard:
+    company_name: Name
+    company_name_en: Name En
+    company_type: Company Type 
+    company_phone_number: PhoneNumber
+    company_classify: Classify
+    company_description: Description
+    company_description_en: Description En
+    company_index: Company Page
+    company_index_en: Company En Page
+    company_view: View
+    company_edit: Edit
+    company_tag: Tag
+    submit: Submit
+    online_show: Online Show
+    request_online_show: Request Online Show
+    description_audit: Descrition reviewing
+    description_en_audit: English Descrition reviewing
+    auditing: Submitted audit, we will review as soon as possible
+    left:
+      user_center: User Center
+      my: My
+      recover_password: Recover Password
+      change_password: Change Password
+      company_manage: Company Manage
+      case_manage: Case Manage
+      demand_view: Demand View
+      live_manage: Live Manage
+      im: IM
+      translate: Translate
+      user_demand: My Demand
+    send: Send
+    verify_code: Verify Code
+  footer:
+    info:
+      t1: China Guangfa Bank
+      t2: Exclusive financial sponsor
+      t3: 连接设计 | 促进产业 | 提升价值
+    footer-b2:
+      t1: PDC official WeChat
+    footer-b3:
+      address: "Rm 1506, Canton Fair Tower, 679 Feng Pu Mid Rd, Guangzhou"
+  design_company: Design
+  clothing_company: Catwalk
+  back_to_home: Back To Home
+  wrong_login: Login failed, please try again later.
+  all: All
+  purchase: Purchase
+  production_enterprise: Manufacturer
+  designer: Design
+  other: Other
+  user_type: User Type
+  sign_up: Sign Up
+  log_in: Log In
+  already_have: Already Have
+  don't_have: Dont't Have
+  password: Password
+  old_password: Old Password
+  company_name: Company Name
+  phone_number: Phone Number
+  name: Name
+  company_repeated: Company name is already submitted. Please confirm.
+  case:
+    add: Add
+    name: Case Name
+    name_e : Case Name En
+    detail: Detail
+    detail_en: Detail En
+    image: Image
+    more: More
+    edit: Edit
+    video: Video
+    threed_model: 3D model
+    destroy: Destroy
+  more_cases: More Cases
+  live:
+    name: Title
+    name_en: Title en
+    logo: Logo
+    image: Image
+    address: Live Address
+    address_link: Enter
+    live_list: Live List
+    history_list: Playback List
+    product_list: Product List
+    user_list: Guest List
+  log_out: Log Out
+  demand:
+    company_type:
+      manufacturer: Manufacturer
+      trading_company: Trading company
+      retailer: Retailer
+      wholesaler: Wholesaler
+      importer: Importer
+      designer: Designer
+      foreign_buyers: Foreign buyers
+      other: Other
+    income_type:
+      five_million: Five million
+      twenty_million: Twenty million
+      fifty_million: Fifty million
+      one_hundred_million: One hundred million
+      up_one_hundred_million: Up one hundred million
+    demand_type:
+      design: Design
+      product: Product
+      market: Market
+    product_type:
+      electronics_and_home_appliances: Electronics and home appliances
+      lighting: Lighting
+      vehicles_and_accessories: Vehicles and accessories
+      mechanical: Mechanical
+      hardware_tools: Hardware tools
+      building_materials: Building materials
+      chemical_products: Chemical products
+      energy: Energy
+      consumer_goods: Consumer goods
+      gifts: Gifts
+      home_decoration: Home decoration
+      textile: Textile
+      clothing: Clothing
+      footwear: Footwear
+      office_stationery: Office stationery
+      luggage: Luggage
+      sports_travel_and_leisure_products: Sports travel and leisure products
+      medicine_and_healthcare: Medicine and healthcare
+      foodstuffs: Foodstuffs
+  attachment:
+    remove: Remove Attachment
+    add: Add Attachment
+  image:
+    remove: Remove Image
+    add: Add Image
+  link_to_company_page: Link To Company Page
+  search: Search
+  activerecord:
+    models:
+      banner: Banner
+      company: Company
+      company_classify: Company Classify
+      new_classify: New Classify
+      live: Live
+      demand: Demand
+      friend_link: Friend Link
+    attributes:
+      company:
+        company_type: Company Type
+      company_classify:
+        name: Name
+        name_en: Name En
+        classify_type: Classify Type
+      new_classify:
+        name: Name
+        name_en: Name En
+      live:
+        name: Name
+        name_en: Name En
+        rtmp_live_address: RTMP live address
+      banner:
+        image: Image
+        start_at: Start At
+        end_at: End At
+        url: Url
+        banner_type: Banner Type
+      demand:
+        company_name: Company Name
+        company_type: Company Type
+        scope_of_business: Scope Of Business
+        income_type: Income Type
+        contract_name: Contract Name
+        contract_phone_number: Contract Phone Number
+        contract_email: Contract Email
+        contract_address: Contract Address
+        demand_type: Demand Type
+        product_type: Product Type
+        end_at: End At
+        detail: Detail
+      friend_link:
+        image: Image
+        url: Url

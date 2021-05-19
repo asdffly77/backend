@@ -1,0 +1,2 @@
+module FashionWeeksHelper
+end

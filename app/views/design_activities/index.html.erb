@@ -1,0 +1,476 @@
+<% content_for :title do %>
+<title><%= t('Activity')%></title>
+<% end %>
+<% content_for :javascript do %>
+<%= javascript_include_tag "activity.js" %>
+<% end %>
+
+<div class="header-banner" style="<%= @banners.present? ? '' : 'display: none'%>">
+  <!-- TODO: 大Banner，图片 -->
+  <div class="swiper-wrapper">
+  <% @banners.each do |banner| %>
+    <div class="swiper-slide"><%= link_to banner.url do %>
+      <img src=<%= banner.image.url %> alt="">
+    <% end %>
+    </div>
+  <% end %>
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+<div class="events container padding" style="<%= @banners.present? ? '' : 'margin-top: 0'%>">
+  <%= link_to lives_path(:classify => 'activity', :locale => params[:locale]) do%>
+  <div class="live" style="background-image: url(<%= image_url "activities.jpg"%>);">
+    <div class="play-btn">
+      <div>
+        <div class="i"><img src="https://assets.zjzsxhy.com/upload/69bfc70d-e0d0-4b75-bc9a-03c5081e0334.svg" alt=""></div>
+        <% if params[:locale] == 'en' %>
+          <div class="t">Enter Live House</div>
+          
+        <% else %>
+          <div class="t">点击进入直播间</div>
+          
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
+  <% end %>
+  
+  <div class="list">
+    <!-- TODO: 活动数据，时间，名称，记住这里span不能换行 -->
+    
+      <% if I18n.locale == :en %>
+        <% @schedules[:en].each do |schedule|%>
+          <div class="node">
+            <div class="time"></div>
+            <div class="title"><a href="<%= schedule[:url]%>"><%= schedule[:title]%></a></div>
+            <div class="tags">
+            <% schedule[:tags].each do |tag|%>
+              <span><%= tag%></span>
+              <%end%>
+            </div>
+         </div>
+        <% end %>
+      <% else %>
+        <% @schedules[:cn].each do |schedule|%>
+          <div class="node">
+            <div class="time"></div>
+            <div class="title"><a href="<%= schedule[:url]%>"><%= schedule[:title]%></a></div>
+            <div class="tags">
+            <% schedule[:tags].each do |tag|%>
+              <span><%= tag %></span>
+            <%end%>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    
+  </div>
+</div>
+<!-- TODO: 嘉宾数据，头像，姓名，简介 -->
+
+<% if I18n.locale == :en%>
+  <div class="guests container padding">
+    <div class="page-subtitle"> <span> Guest introduction </span> </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/1.png' %>);"></div>
+      <div class="info">
+        <div class="name">Cao Xiaoqin</div>
+        <div class="title">Deputy director, Ph.D., associate professor, master tutor of the Department of Industrial Design, He Xiangning Art and Design College, Zhongkai Agricultural Engineering College. </div>
+        <div class="desc">Focus on user research, product innovation, and service design. Has more than ten years of industrial design and user experience work experience. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/2.png' %>);"></div>
+      <div class="info">
+        <div class="name">Zhao Bi</div>
+        <div class="title">Founder & CEO of Cloud Nest Consultant and Design Agency, Deputy Secretary-General of Guangdong Industrial Design Innovation Service Alliance, one hundred young people in China’s design industry, and ten outstanding young people in Guangdong’s design industry</div>
+        <div class="desc">Ten years of innovative product development experience has incubated five high-growth brands from zero to one in succession, two of which have now achieved sales of over 100 million yuan. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/3.png' %>);"></div>
+      <div class="info">
+        <div class="name">Zhou Peng</div>
+        <div class="title">Cloud Nest consultant and design agency VP</div>
+        <div class="desc">Having nearly a decade of industrial design management experience in well-known global top 500 companies such as Samsung China Design Institute, Philips Asia Research Institute and Honeywell China R&D Center. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/4.png' %>);"></div>
+      <div class="info">
+        <div class="name">Yin Hao</div>
+        <div class="title">Cloud Nest consultant and design agency partner</div>
+        <div class="desc">Former Heyi Brand Design Consultant Partner, 12 years of brand design history, participated in more than 100 brand image creation and remodeling projects, good at cultural and creative product development, visual design, digital design, brand integration and communication Design, rich cross-industry and cross-domain design experience</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/5.png' %>);"></div>
+      <div class="info">
+        <div class="name">Li Qi</div>
+        <div class="title">Founder & Chairman of Hangzhou Ruide Design Co., Ltd., Vice President of China Industrial Design Association, President of Hangzhou Industrial Design Association, the first batch of senior industrial designers in China, top ten outstanding Chinese design industry Youth, China's top ten outstanding planning experts</div>
+        <div class="desc">Graduated from Zhejiang University in 1995 majoring in industrial design. His graduation design work "Fangtai Range Hood" became the first case of successful industrialization of China's industrial design graduation work. Since the establishment of Ruide Design in 1999, he has led the team to complete more than 2,000 design projects, creating more than 300 billion business value, and successfully transformed Ruide Design into China's top commercial innovative comprehensive design company. Serve Fangtai Kitchenware for 23 years, Sinopec for 14 years, and China Expressway Service Area for 11 years...Deeply plowing China's industrial innovation, focusing on the deep integration of design and industry, and creating business miracles with design. Leading the company to be successfully listed on the New Third Board, "Phoenix Weekly" hailed as "China's industrial design pioneer", and was recognized by the "National Industrial Design Center". During the two sessions in 2018, he received an in-depth report on the "Designed Miracle" of CCTV's economy for half an hour. From 2009 to 2018, the Tenth Reed Excellent Graduation Design Invitational Competition was held consecutively to save a new generation of young power for Chinese industrial design; in September 2018, "Ah! Design-China Design IP Festival" was launched. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/6.png' %>);"></div>
+      <div class="info">
+        <div class="name">Jin Changbao</div>
+        <div class="title">Co-founder of Hangzhou Ruide Design Co., Ltd., the international judge of the German iF Design Award, the first batch of senior industrial designers in Zhejiang Province, the top ten designers in China, the director of the China Industrial Design Association, Zhejiang Industry Vice President of Design Association, Director of China Fashion Color Association, Vice President of Hangzhou Cultural and Creative Association</div>
+        <div class="desc">Specializing in industrial design for 25 years, devoted to consumer psychology research, has a number of design patents, and won many design awards at home and abroad, such as Red Dot, iF, American IDEA, "Golden Wisdom Award" The leading design of Fangtai A-type machine, Q-type machine, European-style machine, near-suction range hood, sink dishwasher has epoch-making significance for Chinese kitchen appliances enterprises. Leading Reed design product design team to win nearly one hundred international design awards, becoming Fang Tai's 21-year royal design team, and has never stopped design exploration and innovation, the service field extends from kitchen appliances to bathroom, industry, home, medical, pet, beauty Makeup...</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/7.png' %>);"></div>
+      <div class="info">
+        <div class="name">Wu Zhan</div>
+        <div class="title">General Manager of the Design Division of Ruide Design Space, top ten industrial design elites in Hangzhou, winners of multiple German Red Dot Awards and iF Awards,</div>
+        <div class="desc">20 years of experience, spanning industrial design, brand consulting, retail design and other fields, more than 500 senior brand retail space experience design senior training instructor. Leading the R&D Design Space design team to develop SI system construction standards for Fangtai, Supor, Sanhe, Aopu, Sinopec Easy, Netease and other industry leading brands, and continue to lead the industry in terminal transformation for 20 years. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/8.png' %>);"></div>
+      <div class="info">
+        <div class="name">Guo Xian</div>
+        <div class="title">General manager of Ruide Design Brand Planning and Design Division, senior brand planning and design expert</div>
+        <div class="desc">16 years of experience in the brand industry, constantly exploring and deconstructing the relationship between design and business, leading the Reed Design brand planning team to actively explore the ability to interpret commercial projects, and innovatively create "product power, brand power, "Communication" integrated brand service model. He has served many well-known brands such as China FAW, Sinopec Easyjet, Jiuyang Group, Yuetai Hailong, Chint Group, Mercat, Colorful Yunnan, etc., and teamed up to help the brand to create a super visual design case with a market offensive strategy. ! </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/9.png' %>);"></div>
+      <div class="info">
+        <div class="name">Wang Pei</div>
+        <div class="title">Deputy general manager of the product design business department of Ruide Design, an excellent young designer in China, has won the Red Dot Award and iF Award many times</div>
+        <div class="desc">Lead product design team to carry out design exploration and innovation in kitchen, bathroom, industry, home, beauty, pet, medical and other fields, and integrate technology and design, based on market demand, through high efficiency Innovate to achieve products from 0 to 1, to create the core competitiveness of products for customers. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/10.png' %>);"></div>
+      <div class="info">
+        <div class="name">Li Yanzhi</div>
+        <div class="title"></div>
+        <div class="desc">Early graduated in interior design. He has worked in several well-known American companies as designer and design management positions. He has advanced international design concepts, excellent product design capabilities, trend analysis and transformation capabilities. , Have a deep and unique understanding of European and American markets and design. Ms. Li Yanzhi joined the designer team at the beginning of Deke Chuangyi's entry into the Chinese market, focusing on international home trend forecasting, market dynamic analysis, design concept research, home products and display design, and interacting with the world's top trend companies all year round The cooperation is well received and praised by many customers at home and abroad. Ms. Li Yanzhi's keen sense of trends and her ability to transform have made her become a home trend consultant for several major retailers in the United States. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/11.png' %>);"></div>
+      <div class="info">
+        <div class="name">Jorg van den Hoven South American Dragon</div>
+        <div class="title">China-Dutch Orange Brand Consulting (Netherlands) Co., Ltd., founder and CEO; Netherlands China-Europe Brand Development Joint Center, chairman</div>
+        <div class="desc">As the founder and CEO of Zhonghe Orange Brand Consulting Co., Ltd., Mr. South America continues to exert his entrepreneurial spirit and has more than 20 in business, government diplomacy, innovation strategy and brand consulting and design. Years of experience. In 1998, Mr. South American Dragon established his first team in Amsterdam, the Netherlands. On this basis, he continued to grow and develop, and established the China-Dutch Orange Consulting Company in China, the Netherlands, and Hong Kong. In 2005, Mr. South American Dragon relocated the company's headquarters to Wuxi and Shanghai, China, and operated a 1,000-person electronic product factory here. Since 2007, Mr. South America has been based in Guangzhou. In 2009, he served as Deputy Minister of Commerce of the Dutch Consulate General in Guangzhou. With 15 years of strategy and business experience in China, South America has successfully positioned the company as a consulting agency specializing in brand building and innovation strategies, while providing products ranging from product innovation to "omni-channel retail" or "new retail" experience. Innovative design services to help Chinese companies build high-end and luxury brands in Europe and the United States. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/12.png' %>);"></div>
+      <div class="info">
+        <div class="name">Peter Kersten Peter Kastans</div>
+        <div class="title">Senior Orange Brand Consulting (Netherlands) Co., Ltd. Senior Brand Consultant</div>
+        <div class="desc">Peter Kersten was the general manager of marketing communications at Canon’s European headquarters. Canon is a well-known Japanese camera and office automation brand, and its European headquarters is located in Amsterdam, the Netherlands. During this period, Mr. Peter Kersten withdrew from Canon for 4 years and served as a customer director in a design agency involving multiple industries. His last tenure at Canon was the general manager of brand and design management at Canon Corporate Strategy Center. With extensive experience working in a corporate environment, Mr. Peter Kersten became president of BNO, the Dutch Designers Association. Five years later, he resigned from BNO and became an honorary member and ambassador of BNO. In addition to operating his own brand consulting company, Brand Sync, Mr. Peter Kersten also designs, manages and markets for companies, government agencies, and NGOs in Russia, China, Poland, Colombia, Germany, Sweden, the Netherlands, South Africa, Ghana, and India. , Market communication and brand building issues. In addition, he often speaks at international conferences. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/13.png' %>);"></div>
+      <div class="info">
+        <div class="name">Li Yichao</div>
+        <div class="title">President of LKK Rococo Innovation Design Group, Executive Vice President of Shenzhen Industrial Design Association, visiting professor at Jiangnan University School of Design, judge member of Taiwan Golden Point Design Award, product strategy and industry solution innovation expert</div>
+        <div class="desc">Has more than ten years of dual experience in product innovation and innovation management. He has been selected for the Guanghua Longteng Award·Chinese Design Young Hundred People List many times, and his personal and team works have won more than 20 design awards at home and abroad. Continue to explore the new boundary between product innovation and group business development, and lay a number of milestones for the development of Rococo:</div>
+        <div class="desc">In 2010, Shenzhen Rococo Industrial Design Co., Ltd., the first branch of Rococo, was established, and it quickly developed into a highly competitive design agency in South China, opening Rococo Group Era of development, and take the lead in building a new design method system of "design + R&D + supply chain", integrating industrial design profession with engineering design, hardware and software R&D, and production management into a new design method with product innovation as the goal. The achievements of the design extend from "plan" to "product";</div>
+        <div class="desc">In 2016, it proposed to build a "track-based" development strategy, and comprehensively upgrade industrial design, brand design, interaction design, and service design to "new species design", "new consumer design", and "new "Internet of Things Design" and "New Retail Design" upgrade the product innovation business from professional differentiation to industry and field differentiation, bringing deeper and more comprehensive product innovation value to customers;</div>
+        <div class="desc">In 2019, explore the innovation paradigm of digital products, build a "PIM data center" system, combine Rococo and even more industry leaders to promote the construction of a digitally driven social product innovation platform, and face The industry has settled and implemented digital and intelligent solutions for products, and is committed to building an innovative underlying operating system in the digital business era. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/14.png' %>);"></div>
+      <div class="info">
+        <div class="name">Zhou Shikun</div>
+        <div class="title">Managing Partner of LKK Rococo Innovation Design Group, CEO of Rococo Design, General Manager of Rococo Investment Company, Partner of Coco Pine Fund</div>
+        <div class="desc">Have a bachelor’s degree in industrial design (level 98) from Hunan University and a master’s degree in business administration from Tsinghua University. </div>
+        <div class="desc">Graduated in 2002 and joined CECW, China’s leading communications R&D institution, as one of the earliest mobile phone designers in China. In 2004, it became the world’s leading mobile phone R&D institution Dexin Wireless (NASDAQ) : CNTF) Design Director, providing product design and interactive design services for global well-known brands such as NEC, Panasonic, Motorola, Nokia, and Siemens. Familiar with the product innovation development process, good at capturing and realizing potential needs. Joined Rococo for 15 years to promote Rococo's capitalization and build a future-oriented design ecology. Currently focusing on consumer and VC investment in the TMT field, investment projects include: Yu Pan Intelligence, Xiao Gotong, accompanying technology, programming cat, He Blade Technology, Guangjian Technology, Insight Technology, etc. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/15.png' %>);"></div>
+      <div class="info">
+        <div class="name">Li Fancong</div>
+        <div class="title">Managing Partner of LKK Rococo Innovation Design Group, General Manager of Beijing Rococo Design, General Manager of Rococo Artificial Intelligence Business Group</div>
+        <div class="desc">Has rich experience in innovative design and consulting in the field of integration of technological innovation and design innovation, and has comprehensive solution capabilities in consulting, design, research and development, engineering and other fields in the field of AIoT. The beast company provides innovative design and consulting services, and has won many international design awards such as Reddot, iF, IDEA, and G-Mark. </div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/16.png' %>);"></div>
+      <div class="info">
+        <div class="name">Deng Zemao</div>
+        <div class="title">General Manager of R&D Supply Chain Platform, expert of product development and supply chain management, Vice President of LKK Rococo Innovation Design Group</div>
+        <div class="desc">Founder of Rococo Rockock R&D and Supply Chain, with nearly 30 years of experience in product R&D, mold development, factory management and supply chain management, a group R&D and supply chain team has been formed to optimize R&D and The supply chain service process has extremely strong resource integration capabilities. Provide customers with a one-stop solution from product development to manufacturing, and escort the product from design to landing. He has strong leadership skills, is familiar with the overall operation and management of the enterprise, and has advanced management concepts and strategic vision. It has a wide range of customer resources and social resources, and has successfully served high-quality customers such as Sichuan Aerospace, China Aerospace, Forbidden City Museum, HKUST Xunfei, Meituan, Beidou, Tongrentang, Jusha Medical, Nestlé, Tencent, CCTV and a large number of startups. </div>
+        <div class="desc">Participation in major projects:</div>
+        <div class="desc">1.55 degree cup design + R&D supply chain production project; </div>
+        <div class="desc">2. Keda Xun Fei Xiao Translator Design + R&D Supply Chain Production Project;</div>
+        <div class="desc">3. Tencent Lubao box design + R&D supply chain project; </div>
+        <div class="desc">4. Forbidden City Museum Super IP build; </div>
+        <div class="desc">5. China Aerospace, Sichuan Aerospace series project design + R&D supply chain;</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url'guest/17.png' %>);"></div>
+      <div class="info">
+        <div class="name">Olga Sismanidou</div>
+        <div class="title">Co-founder and art director of Mi Luoku Design</div>
+        <div class="desc">I have provided international projects such as interior design, product design, window display, and styling design for Gucci, Dior, Versace, Sony, Vodafone, HP, Swatch and other first-line brands. Her design method is artistic and sensual, always trying to break the boundaries, recreate space and products, and create a new world that combines imagination and reality. She is passionate about display and trend forecasting, constantly researching consumer needs and future trends. Her goal is to bring happiness to people's daily lives and contribute to a beautiful and beautiful world through design. </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  
+  <div class="guests container padding">
+    <div class="page-subtitle"><span>嘉宾介绍</span></div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/1.png' %>);"></div>
+      <div class="info">
+        <div class="name">曹小琴</div>
+        <div class="title">仲恺农业工程学院何香凝艺术设计学院工业设计系副主任、博士、副教授、硕士生导师。</div>
+        <div class="desc">专注用户研究、产品创新、服务设计领域。有超过十年的工业设计及用户体验工作经验。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/2.png' %>);"></div>
+      <div class="info">
+        <div class="name">赵璧</div>
+        <div class="title">云巢顾问与设计机构 创始人&CEO ，广东工业设计创新服务联盟 副秘书长，中国设计业青年百人，广东省设计业十大杰出青年</div>
+        <div class="desc">十年创新产品开发经验，先后从零到一孵化了 5 个细分领域高成长性品牌，其中 2 家现已实现销售额过亿元。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/3.png' %>);"></div>
+      <div class="info">
+        <div class="name">周鹏</div>
+        <div class="title">云巢顾问与设计机构 VP</div>
+        <div class="desc">在三星中国设计研究所，飞利浦亚洲研究院和霍尼韦尔中国研发中心等知名全球500强企业有近十年的工业设计管理经验。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/4.png' %>);"></div>
+      <div class="info">
+        <div class="name">殷浩</div>
+        <div class="title">云巢顾问与设计机构 合伙人</div>
+        <div class="desc">前和一品牌设计顾问合伙人，12年品牌设计历程，参与100多个品牌形象创建与重塑项目，擅长文创产品研发、视觉设计、数字化设计、品牌整合传播设计，丰富的跨行业、跨领域设计经验</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/5.png' %>);"></div>
+      <div class="info">
+        <div class="name">李琦</div>
+        <div class="title">杭州瑞德设计股份有限公司创始人&董事长，中国工业设计协会副会长，杭州工业设计协会会长，国内首批高级工业设计师，中国设计业十大杰出青年，中国十大卓越策划专家</div>
+        <div class="desc">1995年毕业于浙江大学工业设计专业，其毕业设计作品“方太吸油烟机”，成为中国工业设计毕业作品成功产业化的首个案例。1999年创立瑞德设计至今，带领团队完成2000多个设计项目，创造3000多亿的商业价值，成功将瑞德设计打造成中国顶级商业创新型综合设计公司。服务方太厨具23年、中国石化14年、中国高速公路服务区11年……深耕中国产业创新，专注设计与产业的深度融合，用设计创造商业奇迹。带领公司成功在新三板成功挂牌，被《凤凰周刊》誉为“中国工业设计拓荒者”，并获“国家级工业设计中心”认定。2018年两会期间，获央视经济半小时 “设计出来的奇迹” 专题深度报道。2009-2018年，连续举办十届瑞德优秀毕业设计邀请赛，为中国工业设计积蓄新一代年轻力量；2018年9月，发起“啊！设计—中国设计IP节“。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/6.png' %>);"></div>
+      <div class="info">
+        <div class="name">晋常宝</div>
+        <div class="title">杭州瑞德设计股份有限公司联合创始人，德国iF设计奖国际评委，浙江省首批高级工业设计师，中国十佳设计师，中国工业设计协会理事，浙江省工业设计协会副会长，中国流行色协会理事，杭州文创协会副会长</div>
+        <div class="desc">专业从事工业设计25年，致力于消费心理研究，拥有多项设计专利，作品多次获得红点、iF、美国IDEA、“金智奖”等国内外设计大奖，主导设计的方太A型机、Q型机、欧式机、近吸式油烟机，水槽洗碗机对中国厨电企业有着划时代的意义。带领瑞德设计产品设计团队获得近百项国际设计大奖，成为方太21年御用设计队伍，并从未停止设计探索与创新，服务领域从厨电延伸到卫浴、工业、家居、医疗、宠物、美妆……</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/7.png' %>);"></div>
+      <div class="info">
+        <div class="name">吴展</div>
+        <div class="title">瑞德设计空间设计事业部总经理，杭州市十大工业设计精英，多项德国红点奖和iF奖得主，</div>
+        <div class="desc">从业20年，横跨工业设计、品牌咨询、零售设计等多领域，多个500强品牌零售空间体验设计资深培训导师。带领瑞德设计空间设计团队为方太、苏泊尔、三禾、奥普、中石化易捷、网易等行业领导品牌制定了SI系统建设标准，持续引领行业终端变革20年。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/8.png' %>);"></div>
+      <div class="info">
+        <div class="name">郭娴</div>
+        <div class="title">瑞德设计品牌策划设计事业部总经理，资深品牌策划设计专家</div>
+        <div class="desc">16年品牌行业从业经验，不断探索与解构设计与商业的关系，带领瑞德设计品牌策划团队积极探索对商业项目的解读能力，创新打造“产品力、品牌力、传播力”整合品牌服务模型。曾服务过中国一汽、中石化易捷、九阳集团、悦泰海龙、正泰集团、美尔凯特、七彩云南等多个知名品牌，和团队共同助力品牌方打造极具市场进攻策略的超级视觉设计案例！</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/9.png' %>);"></div>
+      <div class="info">
+        <div class="name">王培</div>
+        <div class="title">瑞德设计产品设计事业部副总经理，中国优秀青年设计师，多次获得红点奖与iF奖</div>
+        <div class="desc">带领产品设计团队在厨电、卫浴、工业、家居、美妆、宠物、医疗等多领域进行设计探索与创新，并将技术与设计融合，基于市场需求，通过高效创新实现产品的从0到1，为客户打造产品的核心竞争力。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/10.png' %>);"></div>
+      <div class="info">
+        <div class="name">李艳芝</div>
+        <div class="title"></div>
+        <div class="desc">早期毕业于室内设计专业，曾在数间知名美国公司任职，担任设计师及设计管理职位，拥有先进的国际设计理念、优秀的产品设计能力、趋势分析和转化能力，对欧美市场和设计有深入独到的理解。李艳芝女士于德科创艺进入中国市场之初即加入设计师团队，专注于国际家居趋势预测、市场动态分析、设计理念研究、家居产品及展示设计等方面的工作，常年与全球顶级趋势公司互动合作，深受众多海内外客户的赞誉及推崇。李艳芝女士对趋势的敏锐触觉以及转化能力更令她成为美国几家重要零售商的家居趋势顾问。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/11.png' %>);"></div>
+      <div class="info">
+        <div class="name">Jorg van den Hoven 南美龙</div>
+        <div class="title">中荷橙品牌咨询（荷兰）有限公司，创始人及CEO；荷兰中欧品牌发展联合中心，主席</div>
+        <div class="desc">作为中荷橙品牌咨询有限公司的创始人、首席执行官，南美龙先生持续发挥企业家精神，在商务、政府外交、创新战略与品牌咨询与设计方面拥有超过20年的从业经验。1998年，南美龙先生在荷兰阿姆斯特丹成立了他的第一个团队，在此基础上不断发展壮大，并分别在中国、荷兰和香港成立了中荷橙品牌咨询公司。2005年，南美龙先生将公司总部搬迁至中国无锡和上海，并在此经营了一个1000人规模的电子产品工厂。2007年起，南美龙先生长驻广州，2009年担任荷兰驻广州总领事馆商务部副部长。凭借15年的在华战略和业务经验，南美龙将公司成功将自身定位为一家专业从事品牌建设和创新战略的咨询机构，同时提供从产品创新到“全渠道零售”或“新零售”体验的创新设计服务，帮助中国企业在欧洲和美国地区建立高端及奢侈品牌。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/12.png' %>);"></div>
+      <div class="info">
+        <div class="name">Peter Kersten 皮特·卡斯坦斯</div>
+        <div class="title">中荷橙品牌咨询（荷兰）有限公司资深品牌顾问</div>
+        <div class="desc">Peter Kersten先生曾任佳能欧洲总部的市场传播总经理。佳能是日本的著名相机和办公自动化品牌，其欧洲总部位于荷兰阿姆斯特丹。在此期间，Peter Kersten先生曾退出佳能4年，在一家涉及多个行业的设计机构担任客户总监。他在佳能最后的任职为佳能企业战略中心品牌和设计管理总经理。由于拥有在企业环境工作的丰富经验， Peter Kersten先生成为BNO即荷兰设计师协会的总裁。五年后，他从BNO辞职，并成为BNO的名誉会员和大使。除了运营自己的品牌咨询公司Brand Sync之外， Peter Kersten先生还为俄罗斯、中国、波兰、哥伦比亚、德国、瑞典、荷兰、南非、加纳和印度的公司、政府机构和非政府组织就设计、营销管理、市场传播和品牌建设问题提供咨询。此外，他还经常在国际会议上发言。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/13.png' %>);"></div>
+      <div class="info">
+        <div class="name">李毅超</div>
+        <div class="title">LKK洛可可创新设计集团总裁，深圳市工业设计协会常务副会长，江南大学设计学院客座教授，台湾金点设计奖评审委员，产品战略及行业解决方案创新专家</div>
+        <div class="desc">具有十余年的产品创新及创新管理双重经验。多次入选光华龙腾奖·中国设计青年百人榜，个人及团队作品荣获国内外设计大奖20余项。不断探索产品创新与集团业务发展的新边界，为洛可可发展奠定多个里程碑：</div>
+        <div class="desc">2010年，创立洛可可第一家分公司——深圳洛可可工业设计有限公司，并迅速将其发展成华南地区极具竞争力的设计机构，开启了洛可可集团化的发展时代，并率先构建「设计+研发+供应链」的新设计方法体系，将工业设计专业结合工程设计，软硬件研发，生产管理整合成以产品创新为目标的新设计方式，将工业设计的成果从“方案”延伸到“产品”；</div>
+        <div class="desc">2016年，提出构建“赛道化”发展战略，将工业设计、品牌设计、交互设计、服务设计全面升级为“新物种设计”、“新消费设计”、“新物联设计”以及“新零售设计”，将产品创新业务从以专业区分升级为行业及领域区分，为客户带来更深层、更全面的的产品创新价值；</div>
+        <div class="desc">2019年，探索数字产品的创新范式，构建「PIM数据中台」体系，结合洛可可乃至更多行业领先者推动以数字驱动的社会化产品创新平台构建，并面向全行业沉淀并落地产品数字化、智能化的解决方案，致力于建设数字商业时代创新的底层操作系统。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/14.png' %>);"></div>
+      <div class="info">
+        <div class="name">周世坤</div>
+        <div class="title">LKK洛可可创新设计集团管理合伙人，洛可可设计CEO，洛可可投资公司总经理、可可松基金合伙人</div>
+        <div class="desc">拥有湖南大学工业设计学士学位（98级），清华大学工商管理硕士学位。</div>
+        <div class="desc">02年毕业，加入国内领先的通讯研发机构中电赛龙（CECW）是中国最早的一批手机设计师，04年成为全球领先的手机研发机构德信无线（NASDAQ：CNTF）设计总监，为NEC、松下、摩托罗拉、诺基亚、西门子等全球知名品牌提供产品设计、交互设计服务。熟悉产品的创新开发流程，擅长捕捉并实现潜在需求。15年加入洛可可，推动洛可可的资本化以及构建面向未来的设计生态。目前专注于消费以及TMT领域的VC投资，投资项目包括：宇泛智能、小鹅通、随行科技、编程猫、合刃科技、光鉴科技、见识科技等。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/15.png' %>);"></div>
+      <div class="info">
+        <div class="name">李凡聪</div>
+        <div class="title">LKK洛可可创新设计集团管理合伙人，北京洛可可设计总经理，洛可可人工智能事业群总经理</div>
+        <div class="desc">在科技创新与设计创新融合领域拥有丰富的创新设计与咨询经验，在AIoT领域拥有咨询、设计、研发、工程等全方面的解决方案能力，曾为多家行业独角兽企业提供创新设计与咨询服务，并获得多个Reddot、iF、IDEA、G-Mark等国际设计大奖。</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/16.png' %>);"></div>
+      <div class="info">
+        <div class="name">邓泽茂</div>
+        <div class="title">洛客研发供应链平台总经理，产品研发与供应链管理专家，LKK洛可可创新设计集团副总裁</div>
+        <div class="desc">洛可可·洛客研发与供应链创始人，近30年产品研发，模具开发，工厂管理和供应链管理经验，组建了集团研发与供应链团队，优化了研发与供应链服务流程，有极强的资源整合能力。为客户提供从产品开发到生产制造的一站式解决方案，为产品设计到落地保驾护航。有极强的领导能力，熟悉企业全面运作管理，具有先进的管理理念和战略远见。有广泛的客户资源和社会资源，成功服务四川航天、中国航天、故宫博物馆、科大讯飞、美团、北斗、同仁堂、巨鲨医疗、雀巢、腾讯、CCTV等优质客户和大量的初创企业。</div>
+        <div class="desc">参与重大项目：</div>
+        <div class="desc">1.55度杯设计+研发供应链生产项目；  </div>
+        <div class="desc">2.科大讯飞晓译翻译器设计+研发供应链生产项目；</div>
+        <div class="desc">3.腾讯路宝盒子设计+研发供应链项目；  </div>
+        <div class="desc">4.故宫博物馆超级IP打造；  </div>
+        <div class="desc">5.中国航天、四川航天系列项目设计+研发供应链；</div>
+      </div>
+    </div>
+    <div class="guest">
+      <div class="avatar" style="background-image: url(<%= image_url 'guest/17.png' %>);"></div>
+      <div class="info">
+        <div class="name">Olga Sismanidou</div>
+        <div class="title">米骆库设计联合创始人及艺术总监</div>
+        <div class="desc">曾为古琦、迪奥、范思哲、索尼、沃达丰、惠普、斯沃琪等一线品牌提供室内设计、产品设计、橱窗展示、造型设计等国际项目。她的设计方法是艺术和感性的，总是试图打破界限，重新创造空间和产品，创造想象和现实结合的新世界。她热衷于展示和趋势预测，不断研究消费者需求和未来趋势。她的目标是给人们的日常生活带来快乐，并通过设计为一个美丽美好的世界做出贡献。</div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- TODO: 活动数据 -->
+<div class="detail container padding">
+  <div class="content">
+    <%# <div class="page-subtitle"><span>第127届广交会PDC活动介绍</span></div> %>
+    <% if I18n.locale == :en %>
+  <%# <div class="container padding"> %>
+    <div class="xxsb static-activities">
+      <div class="static-activities-top">
+        <div class="text">
+          <div class="t1">Enhance the added value of products, assist enterprises in transformation and upgrading</div>
+          <div class="t2">提升产品附加值，协助企业转型升级</div>
+        </div>
+        <div class="t3">The design forums, PDC co-organized with the chambers of commerce, are divided into six parts: international market, industry summit, brand marketing, fashion trends, design innovation and technology development.<br>
+          With these, we can not only provide a platform to the buyers, brands and designers to reach the related industries accurately, but also give them a chance to exchange new ideas, share their stories and analyze the trends. It's a great opportunity to enchance the added-value of products, and promote industrial transformation and upgrade.</div>
+      </div>
+      <div class="static-activities-middle">
+        <img src="https://assets.zjzsxhy.com/upload/126bc453-8fa4-40b2-a559-653ec5298b20.png" alt="" class="left-img">
+        <div>
+          <div class="t2">DESIGN NIGHT</div>
+          <div class="t3">PDC invites participated designers and enterprises to join in the networking dinner, to promote their understanding with each other and to explore more cooperation opportunities.<br>
+            PDC Design Night, a signature exchange activity organized by PDC, aims at enhancing understanding, integrating resources, promoting design, and strengthening cooperation between domestic/international design companies and exhibiting enterprises in Canton Fair. It has become one of the most influential events during the fair period. With strong connection and network resources, PDC Design Night has formed close partnerships with Xiaoman, MINISO, StarOkay (a celebrity e-commerce platform), Greek Agricultural Products Asian Promotion Center, the CCCMC, China Chamber of Commerce for I/E of Light Industry Products & Arts-Crafts. And it has invited over a hundred international design companies, leading enterprises in industries, the consulates in GuangZhou, and the mainstream media to participate in this event, in order to create cross-industry interaction and communication.</div>
+        </div>
+      </div>
+      <div class="static-activities-img-c">
+        <img src="https://assets.zjzsxhy.com/upload/a293c48b-980e-47a0-8dbd-e005471ba608.jpg" alt="">
+      </div>
+      <div class="static-activities-bottom">
+        <div class="b1">
+          <div class="left">
+            <div class="t2">DESIGN FORUM</div>
+            <div class="t3">During the Canton Fair, PDC organizes design forums. focusing on the latest trends, design innovation and brand marketing. With discussion on innovative ideas and case analysis, professionals analyze and make forecast on popular trends, and share experience on design-driven trade and upgrade.</div>
+          </div>
+          <div class="right"><img src="https://assets.zjzsxhy.com/upload/765e1517-36af-4630-a3e0-b026e1264d11.jpg" alt=""></div>
+        </div>
+        <div class="b2">
+          <div class="t2">ORGANIZING DESIGNERS<br>TO INDUSTRY BASES</div>
+          <div class="t3">Beside the Canton Fair, PDC also focuses on foreign trade industry bases and promotes communication between designers and China’s foreign trade companies so as to facilitate the business. PDC cooperates with industry bases and hold various matching events for manufacturers and designers. We collect enterprises’ design needs and invite designers at home and abroad to visit these industry bases so as to share the latest design concepts and promote cooperations between them. PDC also holds matchmaking meetings to upgrade the cooperation between two ends.<br>
+            So far, PDC has successfully provided service for Chaozhou Wedding Dress Industrial Base (Guanghzou) , Pinghu Cases & Bags Industrial Base (Zhejiang) and other bases in Nanjing and Jiangsu. An array of praise from the industry has been received over the effective matchmakings.</div>
+          <div class="static-activities-img-c">
+            <img src="https://assets.zjzsxhy.com/upload/d17f052e-932a-4d84-8bad-19b5c63d3ca9.jpg" alt="">
+          </div>
+        </div>
+        <div class="static-activities-img-c">
+          <img src="https://assets.zjzsxhy.com/upload/88d9477c-73a5-40a6-96ed-091f75fe987a.jpg" alt="">
+        </div>
+      </div>
+    </div>
+  <%# </div> %>
+  <% else %>
+  <%# <div class="container padding"> %>
+    <div class="xxsb static-activities">
+      <div class="static-activities-top">
+        <div class="text">
+          <div class="t1">提升产品附加值，协助企业转型升级</div>
+          <div class="t2">Enhance the added value of products, assist enterprises in transformation and upgrading</div>
+        </div>
+        <div class="t3">PDC联合各大商协会举办设计活动，分为国际市场、行业峰会、品牌营销、潮流趋势、设计创新及技术研发等主题版块，精准对接相关行业，探讨和分享创新理念及成功案例，分析和预测流行趋势。提升产品附加值，协助企业转型升级。</div>
+      </div>
+      <div class="static-activities-middle">
+        <img src="https://assets.zjzsxhy.com/upload/126bc453-8fa4-40b2-a559-653ec5298b20.png" alt="" class="left-img">
+        <div>
+          <div class="t1">DESIGN NIGHT</div>
+          <div class="t2">设计之夜</div>
+          <div class="t3">PDC邀请参展设计师与企业代表参加交流晚宴为双方提供一个增进了解、加强合作的机会。PDC设计之夜是PDC在广交会期间为国内外设计公司与广交会参展企业搭建的轻松交流沟通,加强洽商的活动，旨在通过活动为双方提供一个增进了解、资源整合、促进设计及加强合作的机会。PDC设计之夜已成为广交会期间最具影响力的设计活动之一。<br>
+            PDC设计之夜拥有强大的合作资源，已成功与中国五矿化工进出口商会、中国轻工工艺进出口商会、富力环贸港、小满文化集团、名创优品、芒果互娱、星咖特购、NOME等企业或机构达成合作关系，同时邀请逾百家国际设计公司、行业领头企业、驻穗领事馆及国内主流媒体参与PDC设计之夜，从而加大跨行业间的交流与合作力度。</div>
+        </div>
+      </div>
+      <div class="static-activities-img-c">
+        <img src="https://assets.zjzsxhy.com/upload/a293c48b-980e-47a0-8dbd-e005471ba608.jpg" alt="">
+      </div>
+      <div class="static-activities-bottom">
+        <div class="b1">
+          <div class="left">
+            <div class="t1">DESIGN FORUM</div>
+            <div class="t2">设计论坛</div>
+            <div class="t3">广交会期间，PDC组织多场针对各类设计领域的论坛活动，分为潮流趋势、设计创新及品牌营销等主题板块，主要针对相关行业，探讨和分享创新理念和成功范例，分析和预测流行趋势，推广以设计促贸易、以设计促升级的成功经验。</div>
+          </div>
+          <div class="right"><img src="https://assets.zjzsxhy.com/upload/765e1517-36af-4630-a3e0-b026e1264d11.jpg" alt=""></div>
+        </div>
+        <div class="b2">
+          <div class="t1">ORGANIZING DESIGNERS<br>TO INDUSTRY BASES</div>
+          <div class="t2">送设计</div>
+          <div class="t3">在广交会会期之外，PDC聚焦外贸产业基地，组织设计师与中国外贸企业面对面交流，促进双方达成设计合作。PDC联合国内产业基地，收集企业设计需求，组织国内外优秀设计师直接深入产业集群向企业代表传授前沿设计理念，并为对接双方举办交流会，提升合作力度。目前，PDC已成功走进广东潮州婚纱产业基地、浙江平湖箱包产业基地、江苏南京等产业基地及宁波仙居产业基地，企业对接效果显著，好评不断。</div>
+          <div class="static-activities-img-c">
+            <img src="https://assets.zjzsxhy.com/upload/d17f052e-932a-4d84-8bad-19b5c63d3ca9.jpg" alt="">
+          </div>
+        </div>
+        <div class="static-activities-img-c">
+          <img src="https://assets.zjzsxhy.com/upload/88d9477c-73a5-40a6-96ed-091f75fe987a.jpg" alt="">
+        </div>
+      </div>
+    </div>
+  <%# </div> %>
+  <% end %>
+ </div>
+  <!-- TODO: 广告，如果有的话 -->
+  <%# <div class="ad">
+    <img src="https://assets.zjzsxhy.com/upload/4d00b292-83ce-4ad8-87fa-3020c51f496e.jpg" alt="">
+  </div> %>
+</div>
