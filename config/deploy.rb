@@ -2,7 +2,7 @@
 lock "~> 3.16.0"
 
 set :application, "backend"
-set :repo_url, "git@gitlab.sephplus.com:sephplus/guangjiaohui.git"
+set :repo_url, "https://github.com/asdffly77/backend.git"
 set :deploy_to, "/opt/backend"
 set :rvm_ruby_version, '2.6.5' 
 
